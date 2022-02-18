@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   Index,
@@ -11,29 +12,28 @@ import { SidejobOrganization } from "./SidejobOrganization";
 @Index("city_api_url_key", ["apiUrl"], { unique: true })
 @Index("city_pkey", ["id"], { unique: true })
 @Entity("city", { schema: "public" })
-export class City {
+export class City extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar", { name: "entity_type" })
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("varchar", { name: "label" })
+  public label: string;
 
-  @Column("character varying", {
+  @Column("varchar", {
     name: "api_url",
-    nullable: true,
     unique: true,
   })
-  apiUrl: string | null;
+  public apiUrl: string;
 
   @OneToMany(() => Sidejob, (sidejob) => sidejob.fieldCity)
-  sidejobs: Sidejob[];
+  public sidejobs: Sidejob[];
 
   @OneToMany(
     () => SidejobOrganization,
     (sidejobOrganization) => sidejobOrganization.fieldCity
   )
-  sidejobOrganizations: SidejobOrganization[];
+  public sidejobOrganizations: SidejobOrganization[];
 }
