@@ -12,7 +12,7 @@ import { Cv } from "./Cv";
 @Entity("career_path", { schema: "public" })
 export class CareerPath {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  public static id: number;
+  public id: number;
 
   @Column("character varying", { name: "raw_text", nullable: true })
   public rawText?: string;

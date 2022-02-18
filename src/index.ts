@@ -3,6 +3,7 @@ import { ApolloServerPluginDrainHttpServer, gql } from "apollo-server-core";
 import express from "express";
 import http from "http";
 import { DocumentNode } from "graphql";
+import { createConnection } from "typeorm";
 
 async function startApolloServer(typeDefs: DocumentNode, resolvers: any) {
   const app = express();
@@ -12,6 +13,8 @@ async function startApolloServer(typeDefs: DocumentNode, resolvers: any) {
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
+
+  await createConnection();
   await server.start();
   server.applyMiddleware({ app });
   await new Promise<void>((resolve) =>

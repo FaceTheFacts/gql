@@ -5,17 +5,18 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 @Entity("country", { schema: "public" })
 export class Country {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  public id: number;
+  id: number;
 
-  @Column("varchar", { name: "entity_type" })
-  public entityType: string | null;
+  @Column("character varying", { name: "entity_type", nullable: true })
+  entityType: string | null;
 
-  @Column("varchar", { name: "label", unique: true })
-  public label: string;
+  @Column("character varying", { name: "label", nullable: true })
+  label: string | null;
 
-  @Column("varchar", {
+  @Column("character varying", {
     name: "api_url",
+    nullable: true,
     unique: true,
   })
-  public apiUrl: string;
+  apiUrl: string | null;
 }

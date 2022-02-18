@@ -18,9 +18,9 @@ import { Sidejob } from "./Sidejob";
 @Entity("candidacy_mandate", { schema: "public" })
 export class CandidacyMandate {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  public static id: number;
+  id: number;
 
-  @Column("character varying", { name: "entity_type" })
+  @Column("character varying", { name: "entity_type", nullable: true })
   public entityType?: string;
 
   @Column("character varying", { name: "label", nullable: true })
