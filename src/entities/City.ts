@@ -15,8 +15,8 @@ export class City {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
   public static id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  public entityType: string | null;
+  @Column("varchar", { name: "entity_type" })
+  public entityType: string;
 
   @Column("varchar", { name: "label" })
   public label: string;
