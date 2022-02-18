@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   Index,
@@ -11,30 +12,30 @@ import { Committee } from "./Committee";
 
 @Index("committee_membership_pkey", ["id"], { unique: true })
 @Entity("committee_membership", { schema: "public" })
-export class CommitteeMembership {
+export class CommitteeMembership extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar", { name: "entity_type" })
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("text", { name: "label" })
+  public label: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Column("varchar", { name: "api_url" })
+  public apiUrl: string;
 
-  @Column("character varying", { name: "committee_role", nullable: true })
-  committeeRole: string | null;
+  @Column("varchar", { name: "committee_role" })
+  public committeeRole: string;
 
   @ManyToOne(
     () => CandidacyMandate,
     (candidacyMandate) => candidacyMandate.committeeMemberships
   )
   @JoinColumn([{ name: "candidacy_mandate_id", referencedColumnName: "id" }])
-  candidacyMandate: CandidacyMandate;
+  public candidacyMandate: CandidacyMandate;
 
   @ManyToOne(() => Committee, (committee) => committee.committeeMemberships)
   @JoinColumn([{ name: "committee_id", referencedColumnName: "id" }])
-  committee: Committee;
+  public committee: Committee;
 }
