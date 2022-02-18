@@ -1,36 +1,37 @@
+import GraphQLDatabaseLoader from "@mando75/typeorm-graphql-loader";
 import { ApolloServer } from "apollo-server-express";
-import { ApolloServerPluginDrainHttpServer, gql } from "apollo-server-core";
+import type { Express } from "express";
 import express from "express";
-import http from "http";
-import { DocumentNode } from "graphql";
-import { createConnection } from "typeorm";
+import { buildSchema } from "type-graphql";
 
-async function startApolloServer(typeDefs: DocumentNode, resolvers: any) {
-  const app = express();
-  const httpServer = http.createServer(app);
+import { prepareConnection } from "./db/prepareConnection";
+import { PoliticianResolver } from "./resolvers/politician.resolver";
+
+const startApolloServer = async (): Promise<{
+  server: ApolloServer;
+  app: Express;
+}> => {
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    schema: await buildSchema({
+      resolvers: [PoliticianResolver],
+    }),
+    context: async () => {
+      const connection = await prepareConnection();
+      const loader = new GraphQLDatabaseLoader(connection, {
+        maxQueryDepth: 2,
+      });
+
+      return { loader };
+    },
   });
-
-  await createConnection();
   await server.start();
+
+  const app = express();
   server.applyMiddleware({ app });
-  await new Promise<void>((resolve) =>
-    httpServer.listen({ port: 4000 }, resolve)
-  );
+
+  await new Promise((resolve: any) => app.listen({ port: 4000 }, resolve));
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
-}
+  return { server, app };
+};
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
-
-// Provide resolver functions for your schema fields
-
-const resolvers = { Query: { hello: () => "Hello world!" } };
-
-startApolloServer(typeDefs, resolvers);
+startApolloServer();

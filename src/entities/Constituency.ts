@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   Index,
@@ -10,15 +11,15 @@ import { ZipCode } from "./ZipCode";
 
 @Index("constituency_pkey", ["id"], { unique: true })
 @Entity("constituency", { schema: "public" })
-export class Constituency {
+export class Constituency extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar", { name: "entity_type" })
+  public entityType: string | null;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("text", { name: "label", nullable: true })
+  public label?: string;
 
   @Column("character varying", { name: "api_url", nullable: true })
   apiUrl: string | null;

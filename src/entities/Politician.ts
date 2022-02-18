@@ -1,4 +1,6 @@
+import { Field, ID, ObjectType } from "type-graphql";
 import {
+  BaseEntity,
   Column,
   Entity,
   Index,
@@ -7,6 +9,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+
 import { Party } from "./Party";
 import { PoliticianWeblink } from "./PoliticianWeblink";
 import { Position } from "./Position";
@@ -14,12 +17,15 @@ import { Position } from "./Position";
 @Index("politician_pkey", ["id"], { unique: true })
 @Index("trgm_idx_politician_label", ["label"], {})
 @Entity("politician", { schema: "public" })
-export class Politician {
+@ObjectType()
+export class Politician extends BaseEntity {
+  @Field(() => ID)
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Field()
+  @Column("varchar", { name: "entity_type" })
+  public entityType: string;
 
   @Column("character varying", { name: "label", nullable: true })
   label: string | null;
@@ -33,8 +39,9 @@ export class Politician {
   })
   abgeordnetenwatchUrl: string | null;
 
-  @Column("character varying", { name: "first_name", nullable: true })
-  firstName: string | null;
+  @Field()
+  @Column("varchar", { name: "first_name" })
+  public firstName: string;
 
   @Column("character varying", { name: "last_name", nullable: true })
   lastName: string | null;
@@ -87,7 +94,7 @@ export class Politician {
 
   @OneToMany(
     () => PoliticianWeblink,
-    (politicianWeblink) => politicianWeblink.politician
+    (politicianWeblink) => politicianWeblink.politician,
   )
   politicianWeblinks: PoliticianWeblink[];
 
