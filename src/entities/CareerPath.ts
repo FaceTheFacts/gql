@@ -14,13 +14,13 @@ export class CareerPath {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
   public id: number;
 
-  @Column("character varying", { name: "raw_text", nullable: true })
-  public rawText?: string;
+  @Column("text", { name: "raw_text" })
+  public rawText: string;
 
-  @Column("varchar", { name: "label" })
-  public label: string;
+  @Column("text", { name: "label", nullable: true })
+  public label?: string;
 
-  @Column("character varying", { name: "period", nullable: true })
+  @Column("varchar", { name: "period", nullable: true })
   public period?: string;
 
   @ManyToOne(() => Cv, (cv) => cv.careerPaths)
