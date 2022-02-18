@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   Index,
@@ -16,18 +17,18 @@ import { Poll } from "./Poll";
 
 @Index("committee_pkey", ["id"], { unique: true })
 @Entity("committee", { schema: "public" })
-export class Committee {
+export class Committee extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar", { name: "entity_type" })
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("varchar", { name: "label" })
+  public label: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Column("varchar", { name: "api_url" })
+  public apiUrl: string;
 
   @ManyToOne(
     () => ParliamentPeriod,
