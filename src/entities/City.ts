@@ -21,7 +21,7 @@ export class City {
   @Column("varchar", { name: "label" })
   public label: string;
 
-  @Column("character varying", {
+  @Column("varchar", {
     name: "api_url",
     nullable: true,
     unique: true,
