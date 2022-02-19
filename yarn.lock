@@ -3043,6 +3043,11 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
+typeorm-naming-strategies@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/typeorm-naming-strategies/-/typeorm-naming-strategies-3.0.0.tgz#d709110a24bea464ce983a0b3e6e728e59ed88c1"
+  integrity sha512-N8unfoNa+TYzmH2G5hA2Uh2ZHDACRRshHv8GsB7l/oakcoA9cUTtdeNp24pjpb9HY96sBub2pb8wxXX1afT5RA==
+
 typeorm@^0.2.43:
   version "0.2.43"
   resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.43.tgz#110d629ed5d0b014c735f0213f06b34abb32d298"

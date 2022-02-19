@@ -1,3 +1,4 @@
+import type { IGraphQLToolsResolveInfo } from "apollo-server-express";
 import {
   Args,
   ArgsType,
@@ -29,14 +30,15 @@ export class PoliticianResolver {
   public async politicians(
     @Args() { offset, limit }: GetPaginatedPoliticians,
     @Ctx() ctx: IContext,
-    @Info() info: any,
+    @Info() info: IGraphQLToolsResolveInfo,
   ): Promise<PaginatePoliticians> {
     const { loader } = ctx;
 
     const [politicians, totalCount] = await loader
       .loadEntity(Politician, "politician")
-      .info(info)
+      .info(info, "politicians")
       .paginate({ offset, limit })
+      .order({ id: "ASC" })
       .loadPaginated();
 
     return {

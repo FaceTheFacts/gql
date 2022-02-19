@@ -27,27 +27,30 @@ export class Politician extends BaseEntity {
   @Column("varchar", { name: "entity_type" })
   public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Field()
+  @Column("varchar", { name: "label" })
+  public label: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
-
-  @Column("character varying", {
-    name: "abgeordnetenwatch_url",
-    nullable: true,
-  })
-  abgeordnetenwatchUrl: string | null;
+  @Column("varchar", { name: "api_url" })
+  public apiUrl: string;
 
   @Field()
-  @Column("varchar", { name: "first_name" })
+  @Column("varchar", {
+    name: "abgeordnetenwatch_url",
+  })
+  public abgeordnetenwatchUrl: string;
+
+  @Field()
+  @Column("varchar")
   public firstName: string;
 
-  @Column("character varying", { name: "last_name", nullable: true })
-  lastName: string | null;
+  @Field()
+  @Column("varchar")
+  public lastName: string;
 
-  @Column("character varying", { name: "birth_name", nullable: true })
-  birthName: string | null;
+  @Field({ nullable: true })
+  @Column("varchar", { nullable: true })
+  public birthName?: string;
 
   @Column("character varying", { name: "sex", nullable: true })
   sex: string | null;
