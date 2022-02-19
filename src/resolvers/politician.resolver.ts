@@ -12,8 +12,8 @@ import {
 
 import { Politician } from "../entities/Politician";
 import type { IContext } from "../types/server";
-import { PaginatedArgs } from "./inputs/baseArgs";
-import { PaginatedResult } from "./inputs/baseObject";
+import { PaginatedArgs } from "./base/paginatedArgs";
+import { PaginatedResult } from "./base/paginatedObject";
 
 @ArgsType()
 class GetPaginatedPoliticians extends PaginatedArgs {}
@@ -26,8 +26,8 @@ class PaginatePoliticians extends PaginatedResult {
 
 @Resolver(Politician)
 export class PoliticianResolver {
-  @Query(() => PaginatePoliticians, { description: "Returns politicians" })
-  public async politicians(
+  @Query(() => PaginatePoliticians)
+  public async paginatedPoliticians(
     @Args() { offset, limit }: GetPaginatedPoliticians,
     @Ctx() ctx: IContext,
     @Info() info: IGraphQLToolsResolveInfo,
