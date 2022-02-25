@@ -1,4 +1,5 @@
 export const ServerConfig = {
+  STATIC_FILE_PATH: "./statics",
   api: {
     BASE_URL: "https://www.abgeordnetenwatch.de/api/v2",
     FETCH_RANGE_SIZE: 999,

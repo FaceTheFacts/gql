@@ -76,7 +76,7 @@ export class DataSourceUtil {
     entitiesName: K,
     parameter?: string,
   ): Promise<ApiEntities[K][]> {
-    const path = `./src/statics/${entitiesName}.json`;
+    const path = `${ServerConfig.STATIC_FILE_PATH}/${entitiesName}.json`;
 
     if (!this.hasValidDataSource(path)) {
       const data = await this.requestEntities(entitiesName, parameter);
