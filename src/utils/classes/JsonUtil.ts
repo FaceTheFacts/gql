@@ -9,7 +9,7 @@ export class JsonUtil {
 
   public static writeJsonSync<T>(path: string, data: T): void {
     try {
-      fs.writeFileSync(path, JSON.stringify(data));
+      fs.writeFileSync(path, JSON.stringify(data, null, 4));
     } catch (err: any) {
       throw new Error(err.message);
     }
