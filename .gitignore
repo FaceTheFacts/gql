@@ -27,3 +27,4 @@ chrome-user-data
 *.http
 nodemon.json
 ormconfig.json
+dist/
