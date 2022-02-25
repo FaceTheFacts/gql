@@ -1,3 +1,4 @@
+import { Field, ID, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -11,6 +12,7 @@ import { Politician } from "./Politician";
 @ObjectType()
 @Entity()
 export class Party extends BaseEntity {
+  @Field(() => ID)
   @PrimaryGeneratedColumn()
   public id: number;
 
@@ -29,6 +31,7 @@ export class Party extends BaseEntity {
   @Column("varchar")
   public shortName: string;
 
+  @Field(() => [Politician])
   @OneToMany(() => Politician, (politician) => politician.party)
   public politicians: Politician[];
 }
