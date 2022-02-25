@@ -1,10 +1,10 @@
 import fs from "fs";
 
 import { ServerConfig } from "../config/ServerConfig";
+import { request } from "../lib/request";
 import type { ApiResponse } from "../types/api";
 import type { ApiEntities } from "../types/helpers";
 import { JsonUtil } from "../utils/classes/JsonUtil";
-import { request } from "../utils/request";
 
 const hasValidFile = (path: string): boolean => {
   if (!fs.existsSync(path)) {
