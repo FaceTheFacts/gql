@@ -28,7 +28,7 @@ export class Politician extends BaseEntity {
   public apiUrl: string;
 
   @Column("varchar")
-  public abgeordnetenwatch_url: string;
+  public abgeordnetenwatchUrl: string;
 
   @Column("varchar")
   public firstName: string;
