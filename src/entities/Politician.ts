@@ -1,106 +1,84 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, Int, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
   Entity,
-  Index,
-  JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
+import { PoliticianSexEnum } from "../enums/entities";
 import { Party } from "./Party";
-import { PoliticianWeblink } from "./PoliticianWeblink";
-import { Position } from "./Position";
 
-@Index("politician_pkey", ["id"], { unique: true })
-@Index("trgm_idx_politician_label", ["label"], {})
-@Entity("politician", { schema: "public" })
 @ObjectType()
+@Entity()
 export class Politician extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  @PrimaryGeneratedColumn()
   public id: number;
 
   @Field()
-  @Column("varchar", { name: "entity_type" })
+  @Column("varchar")
   public entityType: string;
 
-  @Field()
-  @Column("varchar", { name: "label" })
+  @Column("varchar")
   public label: string;
 
-  @Column("varchar", { name: "api_url" })
+  @Column("varchar")
   public apiUrl: string;
 
-  @Field()
-  @Column("varchar", {
-    name: "abgeordnetenwatch_url",
-  })
-  public abgeordnetenwatchUrl: string;
+  @Column("varchar")
+  public abgeordnetenwatch_url: string;
 
-  @Field()
   @Column("varchar")
   public firstName: string;
 
-  @Field()
   @Column("varchar")
   public lastName: string;
 
-  @Field({ nullable: true })
   @Column("varchar", { nullable: true })
   public birthName?: string;
 
-  @Column("character varying", { name: "sex", nullable: true })
-  sex: string | null;
-
-  @Column("character varying", { name: "year_of_birth", nullable: true })
-  yearOfBirth: string | null;
-
-  @Column("character varying", { name: "party_past", nullable: true })
-  partyPast: string | null;
-
-  @Column("boolean", { name: "deceased", nullable: true })
-  deceased: boolean | null;
-
-  @Column("date", { name: "deceased_date", nullable: true })
-  deceasedDate: string | null;
-
-  @Column("character varying", { name: "education", nullable: true })
-  education: string | null;
-
-  @Column("character varying", { name: "residence", nullable: true })
-  residence: string | null;
-
-  @Column("character varying", { name: "occupation", nullable: true })
-  occupation: string | null;
-
-  @Column("character varying", { name: "statistic_questions", nullable: true })
-  statisticQuestions: string | null;
-
-  @Column("character varying", {
-    name: "statistic_questions_answered",
+  @Field()
+  @Column({
+    type: "enum",
+    enum: PoliticianSexEnum,
     nullable: true,
   })
-  statisticQuestionsAnswered: string | null;
+  public sex?: PoliticianSexEnum;
 
-  @Column("character varying", { name: "qid_wikidata", nullable: true })
-  qidWikidata: string | null;
+  @Field(() => Int, { nullable: true })
+  @Column("integer", { nullable: true })
+  public yearOfBirth?: number;
 
-  @Column("character varying", { name: "field_title", nullable: true })
-  fieldTitle: string | null;
-
+  @Field(() => Party)
   @ManyToOne(() => Party, (party) => party.politicians)
-  @JoinColumn([{ name: "party_id", referencedColumnName: "id" }])
-  party: Party;
+  public party: Party;
 
-  @OneToMany(
-    () => PoliticianWeblink,
-    (politicianWeblink) => politicianWeblink.politician,
-  )
-  politicianWeblinks: PoliticianWeblink[];
+  @Column("varchar", { nullable: true })
+  public partyPast?: string;
 
-  @OneToMany(() => Position, (position) => position.politician)
-  positions: Position[];
+  @Column("boolean", { nullable: true })
+  public deceased?: boolean;
+
+  @Column("date", { nullable: true })
+  public deceasedDate?: Date;
+
+  @Column("varchar")
+  public education: string;
+
+  @Column("varchar", { nullable: true })
+  public residence?: string;
+
+  @Column("varchar", { nullable: true })
+  public occupation?: string;
+
+  // public statistic_questions?: string;
+  // public statistic_questions_answered?: string;
+
+  @Column("varchar", { nullable: true })
+  public qid_wikidata?: string;
+
+  @Column("varchar", { nullable: true })
+  public fieldTitle?: string;
 }

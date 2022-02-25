@@ -26,6 +26,7 @@ export interface ApiParliamentPeriod extends ApiBase {
 type TPoliticianSex = "m" | "f" | "d";
 
 export interface ApiPolitician extends ApiBase {
+  abgeordnetenwatch_url: string;
   first_name: string;
   last_name: string;
   birth_name?: string;
