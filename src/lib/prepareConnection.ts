@@ -1,9 +1,5 @@
-import {
-  Connection,
-  createConnection,
-  getConnection,
-  getConnectionOptions,
-} from "typeorm";
+import type { Connection } from "typeorm";
+import { createConnection, getConnection, getConnectionOptions } from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
 let connectionReadyPromise: Promise<Connection> | null = null;

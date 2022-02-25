@@ -1,18 +1,14 @@
 import GraphQLDatabaseLoader from "@mando75/typeorm-graphql-loader";
 import { ApolloServer } from "apollo-server-express";
-import type { Express } from "express";
 import express from "express";
 import { buildSchema } from "type-graphql";
 
 import { ServerConfig } from "./config/ServerConfig";
-import { prepareConnection } from "./db/prepareConnection";
+import { prepareConnection } from "./lib/prepareConnection";
 import { PoliticianResolver } from "./resolvers/politician.resolver";
-import type { IContext } from "./types/server";
+import type { IApolloServer, IContext } from "./types/server";
 
-const startApolloServer = async (): Promise<{
-  server: ApolloServer;
-  app: Express;
-}> => {
+const startApolloServer = async (): Promise<IApolloServer> => {
   const server = new ApolloServer({
     schema: await buildSchema({
       resolvers: [PoliticianResolver],
@@ -26,9 +22,11 @@ const startApolloServer = async (): Promise<{
       return { loader };
     },
   });
+
   await server.start();
 
   const app = express();
+
   server.applyMiddleware({ app });
 
   await new Promise((resolve: any) => app.listen({ port: 4000 }, resolve));

@@ -8,6 +8,7 @@
     "grüne",
     "grünen",
     "linke",
-    "bündnis"
+    "bündnis",
+    "typeorm"
   ]
 }
