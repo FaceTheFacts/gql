@@ -16,7 +16,7 @@
   },
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "api:fetch": "ts-node src/helpers/fetchEntities.ts"
+    "api:fetch": "ts-node src/scripts/fetchEntities.ts"
   },
   "eslintConfig": {
     "plugins": [
