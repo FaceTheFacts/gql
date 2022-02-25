@@ -4,10 +4,10 @@ import type { Express } from "express";
 import express from "express";
 import { buildSchema } from "type-graphql";
 
+import { ServerConfig } from "./config/ServerConfig";
 import { prepareConnection } from "./db/prepareConnection";
 import { PoliticianResolver } from "./resolvers/politician.resolver";
 import type { IContext } from "./types/server";
-import { Config } from "./utils/config";
 
 const startApolloServer = async (): Promise<{
   server: ApolloServer;
@@ -20,7 +20,7 @@ const startApolloServer = async (): Promise<{
     context: async (): Promise<IContext> => {
       const connection = await prepareConnection();
       const loader = new GraphQLDatabaseLoader(connection, {
-        maxQueryDepth: Config.MAX_QUERY_DEPTH,
+        maxQueryDepth: ServerConfig.gql.MAX_QUERY_DEPTH,
       });
 
       return { loader };

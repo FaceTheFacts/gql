@@ -1,3 +1,26 @@
+interface ApiMeta {
+  abgeordnetenwatch_api: {
+    version: string;
+    changelog: string;
+    licence: string;
+    licence_link: string;
+    documentation: string;
+  };
+  status: string;
+  status_message: string;
+  result: {
+    count: number;
+    total: number;
+    range_start: number;
+    range_end: number;
+  };
+}
+
+export interface ApiResponse<T> {
+  meta: ApiMeta;
+  data: T;
+}
+
 interface ApiBase {
   id: number;
   entity_type: string;
