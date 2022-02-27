@@ -10,11 +10,14 @@ import {
 } from "typeorm";
 
 import { CandidacyMandateTypeEnum } from "../enums/entities";
+import { CommitteeMembership } from "./CommitteeMembership";
 import { ElectoralData } from "./ElectoralData";
 import { FractionMembership } from "./FractionMembership";
 import { ParliamentPeriod } from "./ParliamentPeriod";
 import { Party } from "./Party";
 import { Politician } from "./Politician";
+import { Sidejob } from "./Sidejob";
+import { Vote } from "./Vote";
 
 @Entity()
 export class CandidacyMandate extends BaseEntity {
@@ -72,4 +75,16 @@ export class CandidacyMandate extends BaseEntity {
     (fractionMembership) => fractionMembership.candidacyMandate,
   )
   public fractionMemberships: FractionMembership[];
+
+  @OneToMany(
+    () => CommitteeMembership,
+    (committeeMembership) => committeeMembership.candidacyMandate,
+  )
+  public committeeMemberships: CommitteeMembership[];
+
+  @ManyToOne(() => Sidejob, (sidejob) => sidejob.mandates)
+  public sidejob: Sidejob;
+
+  @OneToMany(() => Vote, (vote) => vote.mandate)
+  public votes: Vote[];
 }

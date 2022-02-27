@@ -1,8 +1,15 @@
-import { BaseEntity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 import { ParliamentPeriod } from "./ParliamentPeriod";
 import { Party } from "./Party";
 
+@Entity()
 export class ElectionProgram extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;

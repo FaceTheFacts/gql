@@ -1,8 +1,10 @@
 import {
   BaseEntity,
   Column,
+  Entity,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -11,11 +13,13 @@ import {
   TSidejobCategory,
   TSidejobIncomeInterval,
 } from "../types/api";
+import { CandidacyMandate } from "./CandidacyMandate";
 import { City } from "./City";
 import { Country } from "./Country";
 import { SidejobOrganization } from "./SidejobOrganization";
 import { Topic } from "./Topic";
 
+@Entity()
 export class Sidejob extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
@@ -35,8 +39,11 @@ export class Sidejob extends BaseEntity {
   @Column("varchar", { nullable: true })
   public additionalInformation?: string;
 
-  // TODO:
-  // public mandates: ApiCandidacyMandate[];
+  @OneToMany(
+    () => CandidacyMandate,
+    (candidacyMandate) => candidacyMandate.sidejob,
+  )
+  public mandates: CandidacyMandate[];
 
   @Column("varchar")
   public category: TSidejobCategory;

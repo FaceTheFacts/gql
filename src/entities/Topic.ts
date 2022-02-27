@@ -10,6 +10,7 @@ import {
 } from "typeorm";
 
 import { Committee } from "./Committee";
+import { Poll } from "./Poll";
 import { Sidejob } from "./Sidejob";
 import { SidejobOrganization } from "./SidejobOrganization";
 
@@ -58,4 +59,7 @@ export class Topic extends BaseEntity {
     (sidejobOrganization) => sidejobOrganization.fieldTopics,
   )
   public sidejobOrganizations: SidejobOrganization[];
+
+  @ManyToMany(() => Poll, (poll) => poll.fieldTopics)
+  public polls: Poll[];
 }

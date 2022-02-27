@@ -1,3 +1,5 @@
+import { MandateWonEnum } from "../enums/entities";
+
 interface ApiMeta {
   abgeordnetenwatch_api: {
     version: string;
@@ -68,9 +70,27 @@ export interface ApiPolitician extends ApiBase {
   field_title?: string;
 }
 
+type TMandateWon = "constituency" | "list" | "moved_up";
+
+interface ApiElectoralData extends ApiBase {
+  listPosition?: number;
+  constituencyResult?: number;
+  constituencyResultCount?: number;
+  mandateWon: TMandateWon;
+  electoralList: ApiElectoralList;
+  constituency: ApiConstituency;
+}
+
+interface APiFractionMembership extends Omit<ApiBase, "api_url"> {
+  validFrom: Date;
+  validUntil: Date;
+  fraction: ApiFraction;
+  candidacyMandate: ApiCandidacyMandate;
+}
+
 type TCandidacyMandate = "candidacy" | "mandate";
 
-export interface ApiCandidacyMandate {
+export interface ApiCandidacyMandate extends ApiBase {
   id_external_administration?: string;
   id_external_administration_description?: string;
   type: TCandidacyMandate;
@@ -80,6 +100,8 @@ export interface ApiCandidacyMandate {
   end_date?: Date;
   party?: ApiParty;
   info?: string;
+  electoralData: ApiElectoralData;
+  fractionMemberships: APiFractionMembership[];
 }
 
 export interface ApiCommittee extends ApiBase {

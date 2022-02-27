@@ -5,10 +5,13 @@ import {
   Entity,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
+import { CommitteeMembership } from "./CommitteeMembership";
 import { ParliamentPeriod } from "./ParliamentPeriod";
+import { Poll } from "./Poll";
 import { Topic } from "./Topic";
 
 @ObjectType()
@@ -36,4 +39,13 @@ export class Committee extends BaseEntity {
   @Field(() => [Topic])
   @ManyToMany(() => Topic, (topic) => topic.committees)
   public fieldTopics: Topic[];
+
+  @OneToMany(
+    () => CommitteeMembership,
+    (committeeMembership) => committeeMembership.committee,
+  )
+  public committeeMemberships: CommitteeMembership[];
+
+  @OneToMany(() => Poll, (poll) => poll.fieldCommittees)
+  public polls: Poll[];
 }

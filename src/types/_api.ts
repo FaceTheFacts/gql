@@ -99,11 +99,11 @@ type TCommitteeMembershipRole =
   | "alternate_member";
 
 export interface ApiCommitteeMembership extends ApiBase {
-  committee: ApiCommittee;
-  candidacy_mandate: ApiCandidacyMandate;
-  committee_role: TCommitteeMembershipRole;
-  start_date?: Date;
-  end_date?: Date;
+  // committee: ApiCommittee;
+  // candidacy_mandate: ApiCandidacyMandate;
+  // committee_role: TCommitteeMembershipRole;
+  // start_date?: Date;
+  // end_date?: Date;
 }
 
 type THtmlText = string;
@@ -113,25 +113,25 @@ type TLink = {
 };
 
 export interface ApiPoll extends ApiBase {
-  abgeordnetenwatch_url: string;
-  field_committees?: ApiCommittee;
-  field_intro?: THtmlText;
-  field_legislature: ApiParliamentPeriod;
-  field_poll_date: Date;
+  // abgeordnetenwatch_url: string;
+  // field_committees?: ApiCommittee;
+  // field_intro?: THtmlText;
+  // field_legislature: ApiParliamentPeriod;
+  // field_poll_date: Date;
   field_related_links: TLink[];
-  field_topics: ApiTopic[];
+  // field_topics: ApiTopic[];
 }
 
 type TVote = "yes" | "no" | "abstain" | "no_show";
 type TReasonNoShow = "maternity_protection" | "fell_ill" | "other";
 
 export interface ApiVotes extends ApiBase {
-  mandate: ApiCandidacyMandate;
-  fraction: ApiFraction;
-  poll: ApiPoll;
-  vote: TVote;
-  reason_no_show?: TReasonNoShow;
-  reason_no_show_other?: string;
+  // mandate: ApiCandidacyMandate;
+  // fraction: ApiFraction;
+  // poll: ApiPoll;
+  // vote: TVote;
+  // reason_no_show?: TReasonNoShow;
+  // reason_no_show_other?: string;
 }
 
 export interface ApiParty extends ApiBase {
@@ -189,7 +189,7 @@ export type TSidejobIncomeInterval = "0" | "1" | "2";
 export interface ApiSidejob extends ApiBase {
   // job_title_extra?: string;
   // additional_information?: string;
-  mandates: ApiCandidacyMandate[];
+  // mandates: ApiCandidacyMandate[];
   // category: TSidejobCategory;
   // income_level?: TIncomeLevel;
   // interval?: TSidejobIncomeInterval;

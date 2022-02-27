@@ -9,6 +9,7 @@ import {
 
 import { FractionMembership } from "./FractionMembership";
 import { ParliamentPeriod } from "./ParliamentPeriod";
+import { Vote } from "./Vote";
 
 @Entity()
 export class Fraction extends BaseEntity {
@@ -41,4 +42,7 @@ export class Fraction extends BaseEntity {
     (fractionMembership) => fractionMembership.fraction,
   )
   public fractionMemberships: FractionMembership[];
+
+  @OneToMany(() => Vote, (vote) => vote.fraction)
+  public votes: Vote[];
 }

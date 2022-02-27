@@ -17,6 +17,7 @@ import { ElectionProgram } from "./ElectionProgram";
 import { ElectoralList } from "./ElectoralList";
 import { Fraction } from "./Fraction";
 import { Parliament } from "./Parliament";
+import { Poll } from "./Poll";
 
 @ObjectType()
 @Entity()
@@ -93,4 +94,7 @@ export class ParliamentPeriod extends BaseEntity {
     (candidacyMandate) => candidacyMandate.parliamentPeriod,
   )
   public candidacyMandates: CandidacyMandate[];
+
+  @OneToMany(() => Poll, (poll) => poll.fieldLegislature)
+  public polls: Poll[];
 }

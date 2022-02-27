@@ -1,9 +1,16 @@
-import { BaseEntity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 import { MandateWonEnum } from "../enums/entities";
 import { Constituency } from "./Constituency";
 import { ElectoralList } from "./ElectoralList";
 
+@Entity()
 export class ElectoralData extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;

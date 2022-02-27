@@ -1,6 +1,7 @@
 import {
   BaseEntity,
   Column,
+  Entity,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -9,6 +10,7 @@ import {
 import { ElectoralData } from "./ElectoralData";
 import { ParliamentPeriod } from "./ParliamentPeriod";
 
+@Entity()
 export class Constituency extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
