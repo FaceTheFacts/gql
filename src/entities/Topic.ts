@@ -3,10 +3,15 @@ import {
   BaseEntity,
   Column,
   Entity,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+
+import { Committee } from "./Committee";
+import { Sidejob } from "./Sidejob";
+import { SidejobOrganization } from "./SidejobOrganization";
 
 @ObjectType()
 @Entity()
@@ -41,4 +46,16 @@ export class Topic extends BaseEntity {
 
   @OneToMany(() => Topic, (topic) => topic.parent)
   private children: Topic[];
+
+  @ManyToMany(() => Committee, (committee) => committee.fieldTopics)
+  public committees: Committee[];
+
+  @ManyToMany(() => Sidejob, (sidejob) => sidejob.fieldTopics)
+  public sidejobs: Sidejob[];
+
+  @ManyToMany(
+    () => SidejobOrganization,
+    (sidejobOrganization) => sidejobOrganization.fieldTopics,
+  )
+  public sidejobOrganizations: SidejobOrganization[];
 }

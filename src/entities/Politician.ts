@@ -4,10 +4,12 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { PoliticianSexEnum } from "../enums/entities";
+import { CandidacyMandate } from "./CandidacyMandate";
 import { Party } from "./Party";
 
 @ObjectType()
@@ -73,12 +75,22 @@ export class Politician extends BaseEntity {
   @Column("varchar", { nullable: true })
   public occupation?: string;
 
-  // public statistic_questions?: string;
-  // public statistic_questions_answered?: string;
+  // TODO: convert to number -> Number()
+  @Column("integer", { nullable: true })
+  public statisticQuestions?: number;
+
+  @Column("integer", { nullable: true })
+  public statisticQuestionsAnswered?: number;
 
   @Column("varchar", { nullable: true })
-  public qid_wikidata?: string;
+  public qidWikidata?: string;
 
   @Column("varchar", { nullable: true })
   public fieldTitle?: string;
+
+  @OneToMany(
+    () => CandidacyMandate,
+    (candidacyMandate) => candidacyMandate.politician,
+  )
+  public candidacyMandates: CandidacyMandate[];
 }

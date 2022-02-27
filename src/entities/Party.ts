@@ -7,6 +7,8 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 
+import { CandidacyMandate } from "./CandidacyMandate";
+import { ElectionProgram } from "./ElectionProgram";
 import { Politician } from "./Politician";
 
 @ObjectType()
@@ -34,4 +36,13 @@ export class Party extends BaseEntity {
   @Field(() => [Politician])
   @OneToMany(() => Politician, (politician) => politician.party)
   public politicians: Politician[];
+
+  @OneToMany(() => ElectionProgram, (electionProgram) => electionProgram.party)
+  public electionPrograms: ElectionProgram[];
+
+  @OneToMany(
+    () => CandidacyMandate,
+    (candidacyMandate) => candidacyMandate.party,
+  )
+  public candidacyMandates: CandidacyMandate[];
 }

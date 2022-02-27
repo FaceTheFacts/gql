@@ -31,60 +31,58 @@ interface ApiBase {
 }
 
 export interface ApiParliament extends ApiBase {
-  label_external_long: string;
-  current_project: ApiParliamentPeriod;
+  // label_external_long: string;
+  // current_project: ApiParliamentPeriod;
 }
 
 type TParliamentPeriod = "election" | "legislature";
 
 export interface ApiParliamentPeriod extends ApiBase {
-  parliament: ApiParliament;
-  previous_period: ApiParliamentPeriod;
-  type: TParliamentPeriod;
-  election_date?: Date;
-  start_date_period: Date;
-  end_date_period: Date;
+  // parliament: ApiParliament;
+  // previous_period: ApiParliamentPeriod;
+  // type: TParliamentPeriod;
+  // election_date?: Date;
+  // start_date_period: Date;
+  // end_date_period: Date;
 }
 
 type TPoliticianSex = "m" | "f" | "d";
 
 export interface ApiPolitician extends ApiBase {
-  abgeordnetenwatch_url: string;
-  first_name: string;
-  last_name: string;
-  birth_name?: string;
-  sex?: TPoliticianSex;
-  year_of_birth?: number;
-  party: ApiParty;
-  party_past?: string;
-  deceased?: boolean;
-  deceased_date?: Date;
-  education: string;
-  residence?: string;
-  occupation?: string;
-  statistic_questions?: string;
-  statistic_questions_answered?: string;
-  qid_wikidata?: string;
-  field_title?: string;
+  // abgeordnetenwatch_url: string;
+  // first_name: string;
+  // last_name: string;
+  // birth_name?: string;
+  // sex?: TPoliticianSex;
+  // year_of_birth?: number;
+  // party: ApiParty;
+  // party_past?: string;
+  // deceased?: boolean;
+  // deceased_date?: Date;
+  // education: string;
+  // residence?: string;
+  // occupation?: string;
+  // statistic_questions?: string;
+  // statistic_questions_answered?: string;
+  // qid_wikidata?: string;
+  // field_title?: string;
 }
 
 type TCandidacyMandate = "candidacy" | "mandate";
 
 export interface ApiCandidacyMandate {
-  id_external_administration?: string;
-  id_external_administration_description?: string;
-  type: TCandidacyMandate;
-  parliament_period: ApiParliamentPeriod;
-  politician: ApiPolitician;
-  start_date?: Date;
-  end_date?: Date;
-  party?: ApiParty;
-  info?: string;
+  // id_external_administration?: string;
+  // id_external_administration_description?: string;
+  // type: TCandidacyMandate;
+  // parliament_period: ApiParliamentPeriod;
+  // politician: ApiPolitician;
+  // party?: ApiParty;
+  // info: string;
 }
 
 export interface ApiCommittee extends ApiBase {
-  field_legislature: ApiParliamentPeriod;
-  field_topics: ApiTopic;
+  // field_legislature: ApiParliamentPeriod;
+  // field_topics: ApiTopic;
 }
 
 type TCommitteeMembershipRole =
@@ -137,32 +135,32 @@ export interface ApiVotes extends ApiBase {
 }
 
 export interface ApiParty extends ApiBase {
-  full_name: string;
-  short_name: string;
+  // full_name: string;
+  // short_name: string;
 }
 
 export interface ApiFraction extends ApiBase {
-  full_name: string;
-  short_name: string;
-  legislature: ApiParliamentPeriod;
+  // full_name: string;
+  // short_name: string;
+  // legislature: ApiParliamentPeriod;
 }
 
 export interface ApiElectoralList extends ApiBase {
-  name: string;
-  parliament_period: ApiParliamentPeriod;
+  // name: string;
+  // parliament_period: ApiParliamentPeriod;
 }
 
 export interface ApiConstituency extends ApiBase {
-  name: string;
-  number?: number;
-  parliament_period: ApiParliamentPeriod;
+  // name: string;
+  // number?: number;
+  // parliament_period: ApiParliamentPeriod;
 }
 
 export interface ApiElectionProgram extends ApiBase {
-  parliament_period: ApiParliamentPeriod;
-  party: ApiParty;
+  // parliament_period: ApiParliamentPeriod;
+  // party: ApiParty;
   link: TLink[];
-  file?: string;
+  // file?: string;
 }
 
 export type TIncomeLevel =
@@ -189,30 +187,30 @@ export type TSidejobCategory =
 export type TSidejobIncomeInterval = "0" | "1" | "2";
 
 export interface ApiSidejob extends ApiBase {
-  job_title_extra?: string;
-  additional_information?: string;
+  // job_title_extra?: string;
+  // additional_information?: string;
   mandates: ApiCandidacyMandate[];
-  category: TSidejobCategory;
-  income_level?: TIncomeLevel;
-  interval?: TSidejobIncomeInterval;
-  data_change_date?: Date;
-  created: number;
-  sidejob_organization: ApiSidejobOrganization;
-  field_city?: ApiCity;
-  field_country?: ApiCountry;
-  field_topics: ApiTopic[];
+  // category: TSidejobCategory;
+  // income_level?: TIncomeLevel;
+  // interval?: TSidejobIncomeInterval;
+  // data_change_date?: Date;
+  // created: number;
+  // sidejob_organization: ApiSidejobOrganization;
+  // field_city?: ApiCity;
+  // field_country?: ApiCountry;
+  // field_topics: ApiTopic[];
 }
 
 export interface ApiSidejobOrganization extends ApiBase {
-  field_city?: ApiCity;
-  field_country?: ApiCountry;
-  field_topics: ApiTopic[];
+  // field_city?: ApiCity;
+  // field_country?: ApiCountry;
+  // field_topics: ApiTopic[];
 }
 
 export interface ApiTopic extends ApiBase {
-  abgeordnetenwatch_url: string;
-  description?: string;
-  parent: ApiTopic;
+  // abgeordnetenwatch_url: string;
+  // description?: string;
+  // parent: ApiTopic;
 }
 
 export interface ApiCity extends ApiBase {}
