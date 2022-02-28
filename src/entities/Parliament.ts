@@ -5,14 +5,14 @@ import {
   JoinColumn,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { ParliamentPeriod } from "./ParliamentPeriod";
 
 @Entity()
 export class Parliament extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  @PrimaryColumn()
   public id: number;
 
   @Column("varchar")

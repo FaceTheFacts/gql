@@ -1,11 +1,5 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 import { CandidacyMandate } from "./CandidacyMandate";
 import { ElectionProgram } from "./ElectionProgram";
@@ -15,7 +9,7 @@ import { Politician } from "./Politician";
 @Entity()
 export class Party extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Field()

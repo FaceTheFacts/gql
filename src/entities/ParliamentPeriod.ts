@@ -5,8 +5,7 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { ParliamentPeriodEnum } from "../enums/entities";
@@ -23,7 +22,7 @@ import { Poll } from "./Poll";
 @Entity()
 export class ParliamentPeriod extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Field()
@@ -57,14 +56,21 @@ export class ParliamentPeriod extends BaseEntity {
   @Column("date", { nullable: true })
   public endDatePeriod: Date;
 
-  @Field(() => ParliamentPeriod)
-  @OneToOne(() => ParliamentPeriod, (previousPeriod) => previousPeriod.id)
-  public previousPeriod: ParliamentPeriod;
-
   @Field(() => Parliament)
   @ManyToOne(() => Parliament, (parliament) => parliament.parliamentPeriods)
   public parliament: Parliament;
 
+  @ManyToOne(
+    () => ParliamentPeriod,
+    (parliamentPeriod) => parliamentPeriod.parliamentPeriods,
+  )
+  public previousPeriod: ParliamentPeriod;
+
+  @OneToMany(
+    () => ParliamentPeriod,
+    (parliamentPeriod) => parliamentPeriod.previousPeriod,
+  )
+  public parliamentPeriods: ParliamentPeriod[];
   @OneToMany(() => Committee, (committee) => committee.fieldLegislature)
   public committees: Committee[];
 

@@ -1,5 +1,3 @@
-import { MandateWonEnum } from "../enums/entities";
-
 interface ApiMeta {
   abgeordnetenwatch_api: {
     version: string;
@@ -48,14 +46,14 @@ export interface ApiParliamentPeriod extends ApiBase {
   end_date_period: Date;
 }
 
-type TPoliticianSex = "m" | "f" | "d";
+export type TPoliticianSex = "m" | "f" | "d";
 
 export interface ApiPolitician extends ApiBase {
   abgeordnetenwatch_url: string;
   first_name: string;
   last_name: string;
   birth_name?: string;
-  sex?: TPoliticianSex;
+  sex?: TPoliticianSex | "male ";
   year_of_birth?: number;
   party?: ApiParty;
   party_past?: string;

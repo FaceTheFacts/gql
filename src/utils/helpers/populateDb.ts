@@ -32,7 +32,7 @@ const populatePoliticians = async (connection: Connection): Promise<void> => {
     .createQueryBuilder()
     .insert()
     .into(Politician)
-    .values(toCamelCase(formattedPoliticians))
+    .values(toCamelCase(formattedPoliticians.splice(0, 1000)))
     .execute();
 };
 

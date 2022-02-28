@@ -5,7 +5,7 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { PoliticianSexEnum } from "../enums/entities";
@@ -22,7 +22,7 @@ registerEnumType(PoliticianSexEnum, {
 @Entity()
 export class Politician extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Field()

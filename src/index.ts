@@ -13,7 +13,6 @@ const startApolloServer = async (): Promise<IApolloServer> => {
   const server = new ApolloServer({
     schema: await buildSchema({
       resolvers: [PoliticianResolver],
-
       emitSchemaFile: path.resolve(
         __dirname,
         "__generated__/schema/schema.gql",
