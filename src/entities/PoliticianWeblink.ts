@@ -1,22 +1,19 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Field, ID, ObjectType } from "type-graphql";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
 import { Politician } from "./Politician";
 
+@ObjectType()
 @Entity("politician_weblink", { schema: "public" })
-export class PoliticianWeblink {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+export class PoliticianWeblink extends BaseEntity {
+  @Field(() => ID)
+  @PrimaryColumn({ type: "integer", name: "id" })
   id: number;
 
-  @Column("character varying", { name: "link", nullable: true })
-  link: string | null;
+  @Field(() => ID)
+  @Column("varchar")
+  public link: string;
 
   @ManyToOne(() => Politician, (politician) => politician.politicianWeblinks)
-  @JoinColumn([{ name: "politician_id", referencedColumnName: "id" }])
-  politician: Politician;
+  public politician: Politician;
 }
