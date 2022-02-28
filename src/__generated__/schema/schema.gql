@@ -56,4 +56,5 @@ enum PoliticianSexEnum {
 
 type Query {
   paginatedPoliticians(limit: Int!, offset: Int!): PaginatePoliticians!
+  politician(id: String!): Politician
 }

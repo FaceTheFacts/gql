@@ -1,5 +1,6 @@
 import type { IGraphQLToolsResolveInfo } from "apollo-server-express";
 import {
+  Arg,
   Args,
   ArgsType,
   Ctx,
@@ -26,6 +27,23 @@ class PaginatePoliticians extends PaginatedResult {
 
 @Resolver(Politician)
 export class PoliticianResolver {
+  @Query(() => Politician, { nullable: true })
+  public async politician(
+    @Arg("id") id: string,
+    @Ctx() ctx: IContext,
+    @Info() info: IGraphQLToolsResolveInfo,
+  ): Promise<Politician | undefined> {
+    const { loader } = ctx;
+
+    const politician = loader
+      .loadEntity(Politician, "politician")
+      .where("politician.id = :id", { id })
+      .info(info)
+      .loadOne();
+
+    return politician;
+  }
+
   @Query(() => PaginatePoliticians)
   public async paginatedPoliticians(
     @Args() { offset, limit }: GetPaginatedPoliticians,
