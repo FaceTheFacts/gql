@@ -24,7 +24,7 @@ export class Parliament extends BaseEntity {
   @Column("varchar")
   public apiUrl: string;
 
-  @Column("string")
+  @Column("text")
   public labelExternalLong: string;
 
   @OneToOne(() => ParliamentPeriod)

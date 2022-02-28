@@ -31,7 +31,7 @@ export class Poll extends BaseEntity {
   @Column("varchar")
   public abgeordnetenwatchUrl: string;
 
-  @Column("string", { nullable: true })
+  @Column("text", { nullable: true })
   public fieldIntro?: string;
 
   @Column("date")

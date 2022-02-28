@@ -18,18 +18,23 @@ export class Party extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
 
-  @Column("varchar")
+  @Field()
+  @Column("varchar", { nullable: true })
   public entityType: string;
 
+  @Field()
   @Column("varchar")
   public label: string;
 
+  @Field()
   @Column("varchar")
   public apiUrl: string;
 
+  @Field()
   @Column("varchar")
   public fullName: string;
 
+  @Field()
   @Column("varchar")
   public shortName: string;
 

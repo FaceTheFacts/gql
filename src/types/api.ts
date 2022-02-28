@@ -57,11 +57,11 @@ export interface ApiPolitician extends ApiBase {
   birth_name?: string;
   sex?: TPoliticianSex;
   year_of_birth?: number;
-  party: ApiParty;
+  party?: ApiParty;
   party_past?: string;
   deceased?: boolean;
   deceased_date?: Date;
-  education: string;
+  education?: string;
   residence?: string;
   occupation?: string;
   statistic_questions?: string;

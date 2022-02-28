@@ -35,10 +35,9 @@ export class PoliticianResolver {
     const { loader } = ctx;
 
     const [politicians, totalCount] = await loader
-      .loadEntity(Politician, "politician")
+      .loadEntity(Politician)
       .info(info, "politicians")
       .paginate({ offset, limit })
-      .order({ id: "ASC" })
       .loadPaginated();
 
     return {

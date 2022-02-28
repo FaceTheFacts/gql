@@ -27,7 +27,7 @@ export class ElectoralData extends BaseEntity {
   @Column("integer", { nullable: true })
   public constituencyResult?: number;
 
-  @Column("double", { nullable: true })
+  @Column("float", { nullable: true })
   public constituencyResultCount?: number;
 
   @Column({

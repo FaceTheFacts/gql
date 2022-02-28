@@ -1,6 +1,7 @@
 import GraphQLDatabaseLoader from "@mando75/typeorm-graphql-loader";
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
+import path from "path";
 import { buildSchema } from "type-graphql";
 
 import { ServerConfig } from "./config/ServerConfig";
@@ -12,6 +13,11 @@ const startApolloServer = async (): Promise<IApolloServer> => {
   const server = new ApolloServer({
     schema: await buildSchema({
       resolvers: [PoliticianResolver],
+
+      emitSchemaFile: path.resolve(
+        __dirname,
+        "__generated__/schema/schema.gql",
+      ),
     }),
     context: async (): Promise<IContext> => {
       const connection = await prepareConnection();
