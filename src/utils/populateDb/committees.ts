@@ -33,19 +33,18 @@ export const populateCommittees = async (
     topicsMap[topic.id] = topic;
   });
 
-  const committeeFieldTopicsMap: Record<string, number[]> = {};
+  const committeeFieldTopicsMap: Record<string, Topic[]> = {};
   committees.forEach((committee) => {
     if (committee.field_topics) {
       committeeFieldTopicsMap[committee.id] = committee.field_topics.map(
-        (topic) => topic.id,
+        (topic) => topicsMap[topic.id],
       );
     }
   });
 
   for (const inserted of insertedCommittees) {
     if (inserted.id.toString() in committeeFieldTopicsMap) {
-      const fieldTopicIds = committeeFieldTopicsMap[inserted.id.toString()];
-      inserted.fieldTopics = fieldTopicIds.map((topicId) => topicsMap[topicId]);
+      inserted.fieldTopics = committeeFieldTopicsMap[inserted.id.toString()];
     }
   }
 
