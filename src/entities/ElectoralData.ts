@@ -1,41 +1,45 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
-import { MandateWonEnum } from "../enums/entities";
 import { Constituency } from "./Constituency";
 import { ElectoralList } from "./ElectoralList";
 
-@Entity()
-export class ElectoralData extends BaseEntity {
-  @PrimaryColumn()
-  public id: number;
+@Entity("electoral_data", { schema: "public" })
+export class ElectoralData {
+  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  id: number;
 
-  @Column("varchar")
-  public entityType: string;
+  @Column("character varying", { name: "entity_type", nullable: true })
+  entityType: string | null;
 
-  @Column("varchar")
-  public label: string;
+  @Column("character varying", { name: "label", nullable: true })
+  label: string | null;
 
-  @Column("integer", { nullable: true })
-  public listPosition?: number;
-
-  @Column("integer", { nullable: true })
-  public constituencyResult?: number;
+  @Column("integer", { name: "list_position", nullable: true })
+  listPosition: number | null;
 
   @Column("float", { nullable: true })
-  public constituencyResultCount?: number;
+  constituencyResult: number | null;
 
-  @Column({
-    type: "enum",
-    enum: MandateWonEnum,
-  })
-  public mandateWon: MandateWonEnum;
+  @Column("integer", { name: "constituency_result_count", nullable: true })
+  constituencyResultCount: number | null;
+
+  @Column("character varying", { name: "mandate_won", nullable: true })
+  mandateWon: string | null;
+
+  @ManyToOne(() => Constituency, (constituency) => constituency.electoralData)
+  @JoinColumn([{ name: "constituency_id", referencedColumnName: "id" }])
+  constituency: Constituency;
 
   @ManyToOne(
     () => ElectoralList,
     (electoralList) => electoralList.electoralData,
   )
-  public electoralList: ElectoralList;
-
-  @ManyToOne(() => Constituency, (constituency) => constituency.electoralData)
-  public constituency: Constituency;
+  @JoinColumn([{ name: "electoral_list_id", referencedColumnName: "id" }])
+  electoralList: ElectoralList;
 }

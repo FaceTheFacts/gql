@@ -1,13 +1,13 @@
+import { Field, ID, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { CommitteeMembership } from "./CommitteeMembership";
@@ -15,42 +15,41 @@ import { ParliamentPeriod } from "./ParliamentPeriod";
 import { Poll } from "./Poll";
 import { Topic } from "./Topic";
 
-@Entity("committee", { schema: "public" })
+@ObjectType()
+@Entity()
 export class Committee extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  @Field(() => ID)
+  @PrimaryColumn()
   public id: number;
 
-  @Column("varchar", { name: "entity_type" })
+  @Column("varchar")
   public entityType: string;
 
-  @Column("varchar", { name: "label" })
+  @Column("varchar")
   public label: string;
 
-  @Column("varchar", { name: "api_url" })
+  @Column("varchar")
   public apiUrl: string;
 
   @ManyToOne(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.committees,
   )
-  @JoinColumn([{ name: "field_legislature_id", referencedColumnName: "id" }])
-  fieldLegislature: ParliamentPeriod;
+  public fieldLegislature: ParliamentPeriod;
+
+  //   @RelationId((committee: Committee) => committee.fieldTopics)
+  //   public fieldTopicIds: number[];
 
   @ManyToMany(() => Topic, (topic) => topic.committees)
-  @JoinTable({
-    name: "committee_has_topic",
-    joinColumns: [{ name: "committee_id", referencedColumnName: "id" }],
-    inverseJoinColumns: [{ name: "topic_id", referencedColumnName: "id" }],
-    schema: "public",
-  })
-  topics: Topic[];
+  @JoinTable()
+  public fieldTopics: Topic[];
 
   @OneToMany(
     () => CommitteeMembership,
     (committeeMembership) => committeeMembership.committee,
   )
-  committeeMemberships: CommitteeMembership[];
+  public committeeMemberships: CommitteeMembership[];
 
   @OneToMany(() => Poll, (poll) => poll.fieldCommittees)
-  polls: Poll[];
+  public polls: Poll[];
 }

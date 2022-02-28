@@ -3,43 +3,42 @@ import {
   BaseEntity,
   Column,
   Entity,
-  // JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { PoliticianSexEnum } from "../enums/entities";
+import { CandidacyMandate } from "./CandidacyMandate";
 import { Party } from "./Party";
-import { PoliticianWeblink } from "./PoliticianWeblink";
-import { Position } from "./Position";
 
 registerEnumType(PoliticianSexEnum, {
   name: "PoliticianSexEnum",
 });
 
-@Entity()
+// The last step is very important: TypeScript has limited reflection ability, so this is a case where we have to explicitly provide the enum type for object type fields, input type fields, args, and the return type of queries and mutations:
+
 @ObjectType()
+@Entity()
 export class Politician extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Field()
-  @Column("varchar", { name: "entity_type" })
+  @Column("varchar")
   public entityType: string;
 
   @Field()
-  @Column()
+  @Column("varchar")
   public label: string;
 
-  @Column("varchar", { name: "api_url" })
+  @Field()
+  @Column("varchar")
   public apiUrl: string;
 
   @Field()
-  @Column("varchar", {
-    name: "abgeordnetenwatch_url",
-  })
+  @Column("varchar")
   public abgeordnetenwatchUrl: string;
 
   @Field()
@@ -50,7 +49,7 @@ export class Politician extends BaseEntity {
   @Column("varchar")
   public lastName: string;
 
-  @Field({ nullable: true })
+  @Field()
   @Column("varchar", { nullable: true })
   public birthName?: string;
 
@@ -65,6 +64,10 @@ export class Politician extends BaseEntity {
   @Field(() => Int, { nullable: true })
   @Column("integer", { nullable: true })
   public yearOfBirth?: number;
+
+  @Field(() => Party)
+  @ManyToOne(() => Party, (party) => party.politicians)
+  public party: Party;
 
   @Field()
   @Column("varchar", { nullable: true })
@@ -107,16 +110,9 @@ export class Politician extends BaseEntity {
   @Column("varchar", { nullable: true })
   public fieldTitle?: string;
 
-  @Field(() => Party)
-  @ManyToOne(() => Party, (party) => party.politicians)
-  public party: Party;
-
   @OneToMany(
-    () => PoliticianWeblink,
-    (politicianWeblink) => politicianWeblink.politician,
+    () => CandidacyMandate,
+    (candidacyMandate) => candidacyMandate.politician,
   )
-  public politicianWeblinks: PoliticianWeblink[];
-
-  @OneToMany(() => Position, (position) => position.politician)
-  public positions: Position[];
+  public candidacyMandates: CandidacyMandate[];
 }

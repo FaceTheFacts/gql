@@ -1,41 +1,50 @@
 import {
-  BaseEntity,
   Column,
   Entity,
+  JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { City } from "./City";
-import { Country } from "./Country";
 import { Sidejob } from "./Sidejob";
 import { Topic } from "./Topic";
 
-@Entity()
-export class SidejobOrganization extends BaseEntity {
-  @PrimaryColumn()
-  public id: number;
+@Entity("sidejob_organization", { schema: "public" })
+export class SidejobOrganization {
+  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  id: number;
 
-  @Column("varchar")
-  public entityType: string;
+  @Column("character varying", { name: "entity_type", nullable: true })
+  entityType: string | null;
 
-  @Column("varchar")
-  public label: string;
+  @Column("character varying", { name: "label", nullable: true })
+  label: string | null;
 
-  @Column("varchar")
-  public apiUrl: string;
+  @Column("character varying", { name: "api_url", nullable: true })
+  apiUrl: string | null;
 
-  @ManyToOne(() => City, (city) => city.sidejobOrganizations)
-  public fieldCity?: City;
-
-  @ManyToOne(() => Country, (country) => country.sidejobOrganizations)
-  public fieldCountry?: Country;
-
-  @ManyToMany(() => Topic, (topic) => topic.sidejobOrganizations)
-  public fieldTopics: Topic[];
+  @Column("integer", { name: "field_country_id", nullable: true })
+  fieldCountryId: number | null;
 
   @OneToMany(() => Sidejob, (sidejob) => sidejob.sidejobOrganization)
-  public sidejobs: Sidejob[];
+  sidejobs: Sidejob[];
+
+  @ManyToOne(() => City, (city) => city.sidejobOrganizations)
+  @JoinColumn([{ name: "field_city_id", referencedColumnName: "id" }])
+  fieldCity: City;
+
+  @ManyToMany(() => Topic, (topic) => topic.sidejobOrganizations)
+  @JoinTable({
+    name: "sidejob_organization_has_topic",
+    joinColumns: [
+      { name: "sidejob_organization_id", referencedColumnName: "id" },
+    ],
+    inverseJoinColumns: [{ name: "topic_id", referencedColumnName: "id" }],
+    schema: "public",
+  })
+  topics: Topic[];
 }

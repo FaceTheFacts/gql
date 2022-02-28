@@ -16,18 +16,15 @@ type PaginatePoliticians {
 
 type Party {
   apiUrl: String!
-  entityType: String!
   fullName: String!
   id: ID!
   label: String!
-  politicians: [Politician!]!
   shortName: String!
 }
 
 type Politician {
   abgeordnetenwatchUrl: String!
-  apiUrl: String!
-  birthName: String!
+  birthName: String
   deceased: Boolean!
   deceasedDate: DateTime!
   education: String!

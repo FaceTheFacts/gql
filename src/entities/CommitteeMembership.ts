@@ -1,41 +1,40 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
-import { CommitteeMembershipRoleEum } from "../enums/entities";
 import { CandidacyMandate } from "./CandidacyMandate";
 import { Committee } from "./Committee";
 
-@Entity()
+@Entity("committee_membership", { schema: "public" })
 export class CommitteeMembership extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
   public id: number;
 
-  @Column("varchar")
+  @Column("varchar", { name: "entity_type" })
   public entityType: string;
 
-  @Column("varchar")
+  @Column("varchar", { nullable: true })
   public label: string;
 
-  @Column("varchar")
+  @Column("varchar", { name: "api_url" })
   public apiUrl: string;
 
-  @Column("date", { nullable: true })
-  public start_date?: Date;
-
-  @Column("date", { nullable: true })
-  public end_date?: Date;
-
-  @ManyToOne(() => Committee, (committee) => committee.committeeMemberships)
-  public committee: Committee;
+  @Column("varchar", { name: "committee_role" })
+  public committeeRole: string;
 
   @ManyToOne(
     () => CandidacyMandate,
     (candidacyMandate) => candidacyMandate.committeeMemberships,
   )
+  @JoinColumn([{ name: "candidacy_mandate_id", referencedColumnName: "id" }])
   public candidacyMandate: CandidacyMandate;
 
-  @Column({
-    type: "enum",
-    enum: CommitteeMembershipRoleEum,
-  })
-  public committeeRole: CommitteeMembershipRoleEum;
+  @ManyToOne(() => Committee, (committee) => committee.committeeMemberships)
+  @JoinColumn([{ name: "committee_id", referencedColumnName: "id" }])
+  public committee: Committee;
 }

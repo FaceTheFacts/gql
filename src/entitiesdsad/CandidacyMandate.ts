@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   JoinTable,
   ManyToMany,
@@ -14,72 +15,73 @@ import { FractionMembership } from "./FractionMembership";
 import { ParliamentPeriod } from "./ParliamentPeriod";
 import { Sidejob } from "./Sidejob";
 
+@Index("candidacy_mandate_pkey", ["id"], { unique: true })
 @Entity("candidacy_mandate", { schema: "public" })
 export class CandidacyMandate {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
   public id: number;
 
-  @Column("varchar", { name: "entity_type" })
-  public entityType: string;
+  @Column("character varying", { name: "entity_type", nullable: true })
+  public entityType?: string;
 
-  @Column("varchar", { name: "label" })
-  public label: string;
+  @Column("character varying", { name: "label", nullable: true })
+  public label?: string;
 
-  @Column("varchar", { name: "api_url" })
-  public apiUrl: string;
+  @Column("character varying", { name: "api_url", nullable: true })
+  public apiUrl?: string;
 
-  @Column("varchar", {
+  @Column("character varying", {
     name: "id_external_administration",
     nullable: true,
   })
-  public idExternalAdministration?: string;
+  public idExternalAdministration: string;
 
-  @Column("text", {
+  @Column("character varying", {
     name: "id_external_administration_description",
     nullable: true,
   })
   public idExternalAdministrationDescription?: string;
 
-  @Column("varchar", { name: "type" })
-  public type: string;
+  @Column("character varying", { name: "type", nullable: true })
+  type: string | null;
 
-  @Column("integer", { name: "politician_id" })
-  public politicianId: number;
+  @Column("integer", { name: "politician_id", nullable: true })
+  politicianId: number | null;
 
   @Column("integer", { name: "party_id", nullable: true })
-  public partyId?: number;
+  partyId: number | null;
 
   @Column("date", { name: "start_date", nullable: true })
-  public startDate?: Date;
+  startDate: string | null;
 
   @Column("date", { name: "end_date", nullable: true })
-  public endDate?: string;
+  endDate: string | null;
 
-  @Column("text", { name: "info", nullable: true })
-  public info?: string;
+  @Column("character varying", { name: "info", nullable: true })
+  info: string | null;
 
   @Column("integer", { name: "electoral_data_id", nullable: true })
-  public electoralDataId?: number;
+  electoralDataId: number | null;
 
   @ManyToOne(
     () => FractionMembership,
     (fractionMembership) => fractionMembership.candidacyMandates,
   )
   @JoinColumn([{ name: "fraction_membership_id", referencedColumnName: "id" }])
-  public fractionMembership: FractionMembership;
+  fractionMembership: FractionMembership;
 
   @ManyToOne(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.candidacyMandates,
   )
   @JoinColumn([{ name: "parliament_period_id", referencedColumnName: "id" }])
-  public parliamentPeriod: ParliamentPeriod;
+  parliamentPeriod: ParliamentPeriod;
 
   @OneToMany(
     () => CommitteeMembership,
     (committeeMembership) => committeeMembership.candidacyMandate,
   )
-  public committeeMemberships: CommitteeMembership[];
+  committeeMemberships: CommitteeMembership[];
 
   @ManyToMany(() => Sidejob, (sidejob) => sidejob.candidacyMandates)
   @JoinTable({
@@ -88,5 +90,5 @@ export class CandidacyMandate {
     inverseJoinColumns: [{ name: "sidejob_id", referencedColumnName: "id" }],
     schema: "public",
   })
-  public sidejobs: Sidejob[];
+  sidejobs: Sidejob[];
 }

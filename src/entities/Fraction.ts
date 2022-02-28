@@ -1,48 +1,52 @@
 import {
-  BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { FractionMembership } from "./FractionMembership";
 import { ParliamentPeriod } from "./ParliamentPeriod";
-import { Vote } from "./Vote";
+import { PollResultPerFraction } from "./PollResultPerFraction";
 
-@Entity()
-export class Fraction extends BaseEntity {
-  @PrimaryColumn()
-  public id: number;
+@Entity("fraction", { schema: "public" })
+export class Fraction {
+  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  id: number;
 
-  @Column("varchar")
-  public entityType: string;
+  @Column("character varying", { name: "entity_type", nullable: true })
+  entityType: string | null;
 
-  @Column("varchar")
-  public label: string;
+  @Column("character varying", { name: "label", nullable: true })
+  label: string | null;
 
-  @Column("varchar")
-  public apiUrl: string;
+  @Column("character varying", { name: "api_url", nullable: true })
+  apiUrl: string | null;
 
-  @Column("varchar")
-  public fullName: string;
+  @Column("character varying", { name: "full_name", nullable: true })
+  fullName: string | null;
 
-  @Column("varchar")
-  public shortName: string;
+  @Column("character varying", { name: "short_name", nullable: true })
+  shortName: string | null;
 
   @ManyToOne(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.fractions,
   )
-  public legislature: ParliamentPeriod;
+  @JoinColumn([{ name: "legislature_id", referencedColumnName: "id" }])
+  legislature: ParliamentPeriod;
 
   @OneToMany(
     () => FractionMembership,
     (fractionMembership) => fractionMembership.fraction,
   )
-  public fractionMemberships: FractionMembership[];
+  fractionMemberships: FractionMembership[];
 
-  @OneToMany(() => Vote, (vote) => vote.fraction)
-  public votes: Vote[];
+  @OneToMany(
+    () => PollResultPerFraction,
+    (pollResultPerFraction) => pollResultPerFraction.fraction,
+  )
+  pollResultPerFractions: PollResultPerFraction[];
 }

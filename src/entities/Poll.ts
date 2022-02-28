@@ -1,58 +1,73 @@
 import {
-  BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { Committee } from "./Committee";
+import { FieldRelatedLink } from "./FieldRelatedLink";
 import { ParliamentPeriod } from "./ParliamentPeriod";
+import { PollResultPerFraction } from "./PollResultPerFraction";
 import { Topic } from "./Topic";
-import { Vote } from "./Vote";
+import { VoteResult } from "./VoteResult";
 
-@Entity()
-export class Poll extends BaseEntity {
-  @PrimaryColumn()
-  public id: number;
+@Entity("poll", { schema: "public" })
+export class Poll {
+  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  id: number;
 
-  @Column("varchar")
-  public entityType: string;
+  @Column("character varying", { name: "entity_type", nullable: true })
+  entityType: string | null;
 
-  @Column("varchar")
-  public label: string;
+  @Column("character varying", { name: "label", nullable: true })
+  label: string | null;
 
-  @Column("varchar")
-  public apiUrl: string;
+  @Column("character varying", { name: "api_url", nullable: true })
+  apiUrl: string | null;
 
-  @Column("varchar")
-  public abgeordnetenwatchUrl: string;
+  @Column("text", { name: "field_intro", nullable: true })
+  fieldIntro: string | null;
 
-  @Column("text", { nullable: true })
-  public fieldIntro?: string;
+  @Column("date", { name: "field_poll_date", nullable: true })
+  fieldPollDate: string | null;
 
-  @Column("date")
-  public fieldPollDate: Date;
+  @OneToMany(
+    () => FieldRelatedLink,
+    (fieldRelatedLink) => fieldRelatedLink.poll,
+  )
+  fieldRelatedLinks: FieldRelatedLink[];
 
-  // TODO:
-  // fieldRelatedLinks: TLink[];
+  @ManyToOne(() => Committee, (committee) => committee.polls)
+  @JoinColumn([{ name: "field_committees_id", referencedColumnName: "id" }])
+  fieldCommittees: Committee;
 
   @ManyToOne(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.polls,
   )
-  public fieldLegislature: ParliamentPeriod;
-
-  @ManyToOne(() => Committee, (committee) => committee.polls)
-  public fieldCommittees?: Committee;
+  @JoinColumn([{ name: "field_legislature_id", referencedColumnName: "id" }])
+  fieldLegislature: ParliamentPeriod;
 
   @ManyToMany(() => Topic, (topic) => topic.polls)
-  @JoinTable()
-  public fieldTopics: Topic[];
+  @JoinTable({
+    name: "poll_has_topic",
+    joinColumns: [{ name: "poll_id", referencedColumnName: "id" }],
+    inverseJoinColumns: [{ name: "topic_id", referencedColumnName: "id" }],
+    schema: "public",
+  })
+  topics: Topic[];
 
-  @OneToMany(() => Vote, (vote) => vote.poll)
-  public votes: Vote[];
+  @OneToMany(
+    () => PollResultPerFraction,
+    (pollResultPerFraction) => pollResultPerFraction.poll,
+  )
+  pollResultPerFractions: PollResultPerFraction[];
+
+  @OneToMany(() => VoteResult, (voteResult) => voteResult.poll)
+  voteResults: VoteResult[];
 }

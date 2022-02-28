@@ -1,77 +1,82 @@
 import {
-  BaseEntity,
   Column,
   Entity,
+  JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 
-import {
-  TIncomeLevel,
-  TSidejobCategory,
-  TSidejobIncomeInterval,
-} from "../types/api";
 import { CandidacyMandate } from "./CandidacyMandate";
 import { City } from "./City";
-import { Country } from "./Country";
 import { SidejobOrganization } from "./SidejobOrganization";
 import { Topic } from "./Topic";
 
-@Entity()
-export class Sidejob extends BaseEntity {
-  @PrimaryColumn()
-  public id: number;
+@Entity("sidejob", { schema: "public" })
+export class Sidejob {
+  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  id: number;
 
-  @Column("varchar")
-  public entityType: string;
+  @Column("character varying", { name: "entity_type", nullable: true })
+  entityType: string | null;
 
-  @Column("varchar")
-  public label: string;
+  @Column("character varying", { name: "label", nullable: true })
+  label: string | null;
 
-  @Column("varchar")
-  public apiUrl: string;
+  @Column("character varying", { name: "api_url", nullable: true })
+  apiUrl: string | null;
 
-  @Column("varchar", { nullable: true })
-  public jobTitleExtra?: string;
+  @Column("character varying", { name: "job_title_extra", nullable: true })
+  jobTitleExtra: string | null;
 
-  @Column("varchar", { nullable: true })
-  public additionalInformation?: string;
+  @Column("character varying", {
+    name: "additional_information",
+    nullable: true,
+  })
+  additionalInformation: string | null;
 
-  @OneToMany(
-    () => CandidacyMandate,
-    (candidacyMandate) => candidacyMandate.sidejob,
-  )
-  public mandates: CandidacyMandate[];
+  @Column("character varying", { name: "category", nullable: true })
+  category: string | null;
 
-  @Column("varchar")
-  public category: TSidejobCategory;
+  @Column("character varying", { name: "income_level", nullable: true })
+  incomeLevel: string | null;
 
-  @Column("varchar", { nullable: true })
-  public incomeLevel?: TIncomeLevel;
+  @Column("character varying", { name: "interval", nullable: true })
+  interval: string | null;
 
-  @Column("varchar", { nullable: true })
-  public interval?: TSidejobIncomeInterval;
+  @Column("date", { name: "data_change_date", nullable: true })
+  dataChangeDate: string | null;
 
-  @Column("date", { nullable: true })
-  public dataChangeDate?: Date;
+  @Column("integer", { name: "created", nullable: true })
+  created: number | null;
 
-  @Column("integer")
-  public created: number;
+  @Column("integer", { name: "field_country_id", nullable: true })
+  fieldCountryId: number | null;
+
+  @ManyToOne(() => City, (city) => city.sidejobs)
+  @JoinColumn([{ name: "field_city_id", referencedColumnName: "id" }])
+  fieldCity: City;
 
   @ManyToOne(
     () => SidejobOrganization,
     (sidejobOrganization) => sidejobOrganization.sidejobs,
   )
-  public sidejobOrganization: SidejobOrganization;
+  @JoinColumn([{ name: "sidejob_organization_id", referencedColumnName: "id" }])
+  sidejobOrganization: SidejobOrganization;
 
-  @ManyToOne(() => City, (city) => city.sidejobs)
-  public fieldCity?: City;
-
-  @ManyToOne(() => Country, (country) => country.sidejobs)
-  public fieldCountry?: Country;
+  @ManyToMany(
+    () => CandidacyMandate,
+    (candidacyMandate) => candidacyMandate.sidejobs,
+  )
+  candidacyMandates: CandidacyMandate[];
 
   @ManyToMany(() => Topic, (topic) => topic.sidejobs)
-  public fieldTopics: Topic[];
+  @JoinTable({
+    name: "sidejob_has_topic",
+    joinColumns: [{ name: "sidejob_id", referencedColumnName: "id" }],
+    inverseJoinColumns: [{ name: "topic_id", referencedColumnName: "id" }],
+    schema: "public",
+  })
+  topics: Topic[];
 }

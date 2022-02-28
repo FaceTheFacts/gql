@@ -1,49 +1,34 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-import { ReasonNoShowEnum, VoteEnum } from "../enums/entities";
-import { CandidacyMandate } from "./CandidacyMandate";
-import { Fraction } from "./Fraction";
-import { Poll } from "./Poll";
+@Entity("vote", { schema: "public" })
+export class Vote {
+  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  id: number;
 
-@Entity()
-export class Vote extends BaseEntity {
-  @PrimaryColumn()
-  public id: number;
+  @Column("character varying", { name: "entity_type", nullable: true })
+  entityType: string | null;
 
-  @Column("varchar")
-  public entityType: string;
+  @Column("character varying", { name: "label", nullable: true })
+  label: string | null;
 
-  @Column("varchar")
-  public label: string;
+  @Column("character varying", { name: "api_url", nullable: true })
+  apiUrl: string | null;
 
-  @Column("varchar")
-  public apiUrl: string;
+  @Column("integer", { name: "mandate_id", nullable: true })
+  mandateId: number | null;
 
-  @Column({
-    type: "enum",
-    enum: VoteEnum,
-  })
-  public vote: VoteEnum;
+  @Column("integer", { name: "fraction_id", nullable: true })
+  fractionId: number | null;
 
-  @Column({
-    type: "enum",
-    enum: ReasonNoShowEnum,
-    nullable: true,
-  })
-  public reasonNoShow?: ReasonNoShowEnum;
+  @Column("integer", { name: "poll_id", nullable: true })
+  pollId: number | null;
 
-  @Column("varchar", { nullable: true })
-  public reasonNoShowOther?: string;
+  @Column("character varying", { name: "vote", nullable: true })
+  vote: string | null;
 
-  @ManyToOne(
-    () => CandidacyMandate,
-    (candidacyMandate) => candidacyMandate.votes,
-  )
-  public mandate: CandidacyMandate;
+  @Column("character varying", { name: "reason_no_show", nullable: true })
+  reasonNoShow: string | null;
 
-  @ManyToOne(() => Fraction, (fraction) => fraction.votes)
-  public fraction: Fraction;
-
-  @ManyToOne(() => Poll, (poll) => poll.votes)
-  public poll: Poll;
+  @Column("character varying", { name: "reason_no_show_other", nullable: true })
+  reasonNoShowOther: string | null;
 }

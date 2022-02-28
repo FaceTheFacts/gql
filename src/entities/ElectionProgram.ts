@@ -1,34 +1,46 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 import { ParliamentPeriod } from "./ParliamentPeriod";
-import { Party } from "./Party";
 
-@Entity()
-export class ElectionProgram extends BaseEntity {
-  @PrimaryColumn()
-  public id: number;
+@Entity("election_program", { schema: "public" })
+export class ElectionProgram {
+  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  id: number;
 
-  @Column("varchar")
-  public entityType: string;
+  @Column("character varying", { name: "entity_type", nullable: true })
+  entityType: string | null;
 
-  @Column("varchar")
-  public label: string;
+  @Column("character varying", { name: "label", nullable: true })
+  label: string | null;
 
-  @Column("varchar")
-  public apiUrl: string;
+  @Column("character varying", { name: "api_url", nullable: true })
+  apiUrl: string | null;
 
-  @Column("varchar")
-  public file: string;
+  @Column("integer", { name: "party_id", nullable: true })
+  partyId: number | null;
+
+  @Column("character varying", { name: "link_uri", nullable: true })
+  linkUri: string | null;
+
+  @Column("character varying", { name: "link_title", nullable: true })
+  linkTitle: string | null;
+
+  @Column("character varying", { name: "link_option", nullable: true })
+  linkOption: string | null;
+
+  @Column("character varying", { name: "file", nullable: true })
+  file: string | null;
 
   @ManyToOne(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.electionPrograms,
   )
-  public parliamentPeriod: ParliamentPeriod;
-
-  @ManyToOne(() => Party, (party) => party.electionPrograms)
-  public party: Party;
-
-  // TODO: link
-  // link: TLink[];
+  @JoinColumn([{ name: "parliament_period_id", referencedColumnName: "id" }])
+  parliamentPeriod: ParliamentPeriod;
 }

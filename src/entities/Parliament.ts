@@ -1,39 +1,47 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
-  OneToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { ParliamentPeriod } from "./ParliamentPeriod";
 
-@Entity()
-export class Parliament extends BaseEntity {
-  @PrimaryColumn()
-  public id: number;
+@Entity("parliament", { schema: "public" })
+export class Parliament {
+  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  id: number;
 
-  @Column("varchar")
-  public entityType: string;
+  @Column("character varying", { name: "entity_type", nullable: true })
+  entityType: string | null;
 
-  @Column("varchar")
-  public label: string;
+  @Column("character varying", { name: "label", nullable: true })
+  label: string | null;
 
-  @Column("varchar")
-  public apiUrl: string;
+  @Column("character varying", { name: "api_url", nullable: true })
+  apiUrl: string | null;
 
-  @Column("text")
-  public labelExternalLong: string;
+  @Column("character varying", {
+    name: "abgeordnetenwatch_url",
+    nullable: true,
+  })
+  abgeordnetenwatchUrl: string | null;
 
-  @OneToOne(() => ParliamentPeriod)
-  @JoinColumn()
-  public currentProject: ParliamentPeriod;
+  @Column("character varying", { name: "label_external_long", nullable: true })
+  labelExternalLong: string | null;
+
+  @ManyToOne(
+    () => ParliamentPeriod,
+    (parliamentPeriod) => parliamentPeriod.parliaments,
+  )
+  @JoinColumn([{ name: "current_project_id", referencedColumnName: "id" }])
+  currentProject: ParliamentPeriod;
 
   @OneToMany(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.parliament,
   )
-  public parliamentPeriods: ParliamentPeriod[];
+  parliamentPeriods: ParliamentPeriod[];
 }

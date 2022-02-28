@@ -1,15 +1,8 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
-import { PartyStyle } from "./PartyStyle";
+import { CandidacyMandate } from "./CandidacyMandate";
+import { ElectionProgram } from "./ElectionProgram";
 import { Politician } from "./Politician";
 
 @ObjectType()
@@ -19,7 +12,8 @@ export class Party extends BaseEntity {
   @PrimaryColumn()
   public id: number;
 
-  @Column("varchar")
+  @Field()
+  @Column("varchar", { nullable: true })
   public entityType: string;
 
   @Field()
@@ -38,10 +32,16 @@ export class Party extends BaseEntity {
   @Column("varchar")
   public shortName: string;
 
-  @ManyToOne(() => PartyStyle, (partyStyle) => partyStyle.parties)
-  @JoinColumn([{ name: "party_style_id", referencedColumnName: "id" }])
-  public partyStyle: PartyStyle;
-
+  @Field(() => [Politician])
   @OneToMany(() => Politician, (politician) => politician.party)
   public politicians: Politician[];
+
+  @OneToMany(() => ElectionProgram, (electionProgram) => electionProgram.party)
+  public electionPrograms: ElectionProgram[];
+
+  @OneToMany(
+    () => CandidacyMandate,
+    (candidacyMandate) => candidacyMandate.party,
+  )
+  public candidacyMandates: CandidacyMandate[];
 }
