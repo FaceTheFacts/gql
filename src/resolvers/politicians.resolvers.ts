@@ -26,7 +26,7 @@ class PaginatePoliticians extends PaginatedResult {
 }
 
 @Resolver(Politician)
-export class PoliticianResolver {
+export class PoliticiansResolvers {
   @Query(() => Politician, { nullable: true })
   public async politician(
     @Arg("id") id: string,

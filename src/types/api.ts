@@ -104,7 +104,7 @@ export interface ApiCandidacyMandate extends ApiBase {
 
 export interface ApiCommittee extends ApiBase {
   field_legislature: ApiParliamentPeriod;
-  field_topics: ApiTopic;
+  field_topics: ApiTopic[];
 }
 
 type TCommitteeMembershipRole =
@@ -232,7 +232,7 @@ export interface ApiSidejobOrganization extends ApiBase {
 export interface ApiTopic extends ApiBase {
   abgeordnetenwatch_url: string;
   description?: string;
-  parent: ApiTopic;
+  parent: ApiTopic[];
 }
 
 export interface ApiCity extends ApiBase {}

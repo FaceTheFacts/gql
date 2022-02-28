@@ -49,7 +49,7 @@ export const populateParliamentsAndParliamentPeriods = async (
 
   const parliamentsWithProject = parliaments.map((parliament) => ({
     ...parliament,
-    currentProject: parliament.current_project.id,
+    current_project: parliament.current_project.id,
   }));
 
   await connection

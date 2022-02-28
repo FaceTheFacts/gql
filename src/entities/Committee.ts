@@ -3,10 +3,11 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { CommitteeMembership } from "./CommitteeMembership";
@@ -18,7 +19,7 @@ import { Topic } from "./Topic";
 @Entity()
 export class Committee extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Column("varchar")
@@ -36,8 +37,11 @@ export class Committee extends BaseEntity {
   )
   public fieldLegislature: ParliamentPeriod;
 
-  @Field(() => [Topic])
+  //   @RelationId((committee: Committee) => committee.fieldTopics)
+  //   public fieldTopicIds: number[];
+
   @ManyToMany(() => Topic, (topic) => topic.committees)
+  @JoinTable()
   public fieldTopics: Topic[];
 
   @OneToMany(
