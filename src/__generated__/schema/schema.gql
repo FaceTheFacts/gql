@@ -8,6 +8,12 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+type PaginateParties {
+  hasMore: Boolean!
+  parties: [Party!]!
+  totalCount: Int!
+}
+
 type PaginatePoliticians {
   hasMore: Boolean!
   politicians: [Politician!]!
@@ -19,7 +25,16 @@ type Party {
   fullName: String!
   id: ID!
   label: String!
+  partyStyle: PartyStyle!
   shortName: String!
+}
+
+type PartyStyle {
+  backgroundColor: String!
+  borderColor: String
+  displayName: String!
+  foregroundColor: String!
+  id: ID!
 }
 
 type Politician {
@@ -37,6 +52,8 @@ type Politician {
   occupation: String!
   party: Party!
   partyPast: String!
+  politicianWeblinks: [PoliticianWeblink!]!
+  positions: [Position!]!
   qidWikidata: String!
   residence: String!
   sex: PoliticianSexEnum
@@ -51,7 +68,20 @@ enum PoliticianSexEnum {
   MALE
 }
 
+type PoliticianWeblink {
+  id: ID!
+  link: ID!
+}
+
+type Position {
+  id: ID!
+  position: String!
+  reason: String
+}
+
 type Query {
+  paginatedParties(limit: Int!, offset: Int!): PaginateParties!
   paginatedPoliticians(limit: Int!, offset: Int!): PaginatePoliticians!
+  party(id: String!): Party
   politician(id: String!): Politician
 }

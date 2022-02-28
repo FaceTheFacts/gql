@@ -1,30 +1,30 @@
-import {
-  Column,
-  Entity,
-  // Index,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Field, ID, ObjectType } from "type-graphql";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 import { Party } from "./Party";
 
-// @Index("party_style_pkey", ["id"], { unique: true })
-@Entity("party_style", { schema: "public" })
-export class PartyStyle {
-  @PrimaryGeneratedColumn()
-  id: number;
+@ObjectType()
+@Entity()
+export class PartyStyle extends BaseEntity {
+  @Field(() => ID)
+  @PrimaryColumn()
+  public id: number;
 
-  @Column("character varying", { name: "display_name", nullable: true })
-  displayName: string | null;
+  @Field()
+  @Column("varchar")
+  public displayName: string;
 
-  @Column("character varying", { name: "foreground_color", nullable: true })
-  foregroundColor: string | null;
+  @Field()
+  @Column("varchar")
+  public foregroundColor: string;
 
-  @Column("character varying", { name: "background_color", nullable: true })
-  backgroundColor: string | null;
+  @Field()
+  @Column("varchar")
+  public backgroundColor: string;
 
-  @Column("character varying", { name: "border_color", nullable: true })
-  borderColor: string | null;
+  @Field({ nullable: true })
+  @Column("varchar", { nullable: true })
+  public borderColor?: string;
 
   @OneToMany(() => Party, (party) => party.partyStyle)
   parties: Party[];

@@ -1,4 +1,6 @@
+import { Field, ID, ObjectType } from "type-graphql";
 import {
+  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -10,23 +12,28 @@ import { ParliamentPeriod } from "./ParliamentPeriod";
 import { Politician } from "./Politician";
 import { PositionStatement } from "./PositionStatement";
 
+@ObjectType()
 @Entity("position", { schema: "public" })
-export class Position {
+export class Position extends BaseEntity {
+  @Field(() => ID)
   @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
-  id: string;
+  public id: string;
 
-  @Column("character varying", { name: "position", nullable: true })
-  position: string | null;
+  @Field()
+  @Column("varchar")
+  public position: string;
 
-  @Column("character varying", { name: "reason", nullable: true })
-  reason: string | null;
+  // TODO: Fix
+  @Field({ nullable: true })
+  @Column("varchar", { nullable: true })
+  public reason?: string;
 
   @ManyToOne(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.positions,
   )
   @JoinColumn([{ name: "parliament_period_id", referencedColumnName: "id" }])
-  parliamentPeriod: ParliamentPeriod;
+  public parliamentPeriod: ParliamentPeriod;
 
   @ManyToOne(() => Politician, (politician) => politician.positions)
   @JoinColumn([{ name: "politician_id", referencedColumnName: "id" }])

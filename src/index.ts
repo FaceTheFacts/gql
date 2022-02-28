@@ -6,13 +6,14 @@ import { buildSchema } from "type-graphql";
 
 import { ServerConfig } from "./config/ServerConfig";
 import { prepareConnection } from "./lib/prepareConnection";
+import { PartiesResolvers } from "./resolvers/parties.resolvers";
 import { PoliticiansResolvers } from "./resolvers/politicians.resolvers";
 import type { IApolloServer, IContext } from "./types/server";
 
 const startApolloServer = async (): Promise<IApolloServer> => {
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PoliticiansResolvers],
+      resolvers: [PartiesResolvers, PoliticiansResolvers],
       emitSchemaFile: path.resolve(
         __dirname,
         "__generated__/schema/schema.gql",

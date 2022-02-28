@@ -3,10 +3,9 @@ import {
   BaseEntity,
   Column,
   Entity,
-  // JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { PoliticianSexEnum } from "../enums/entities";
@@ -18,11 +17,11 @@ registerEnumType(PoliticianSexEnum, {
   name: "PoliticianSexEnum",
 });
 
-@Entity()
 @ObjectType()
+@Entity()
 export class Politician extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Field()
@@ -111,12 +110,14 @@ export class Politician extends BaseEntity {
   @ManyToOne(() => Party, (party) => party.politicians)
   public party: Party;
 
+  @Field(() => [PoliticianWeblink])
   @OneToMany(
     () => PoliticianWeblink,
     (politicianWeblink) => politicianWeblink.politician,
   )
   public politicianWeblinks: PoliticianWeblink[];
 
+  @Field(() => [Position])
   @OneToMany(() => Position, (position) => position.politician)
   public positions: Position[];
 }

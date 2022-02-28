@@ -38,6 +38,7 @@ export class Party extends BaseEntity {
   @Column("varchar")
   public shortName: string;
 
+  @Field(() => PartyStyle)
   @ManyToOne(() => PartyStyle, (partyStyle) => partyStyle.parties)
   @JoinColumn([{ name: "party_style_id", referencedColumnName: "id" }])
   public partyStyle: PartyStyle;
