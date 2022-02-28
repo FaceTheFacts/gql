@@ -1,17 +1,11 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 import { Sidejob } from "./Sidejob";
 import { SidejobOrganization } from "./SidejobOrganization";
 
 @Entity()
 export class City extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Column("varchar")

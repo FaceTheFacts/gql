@@ -6,7 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { CandidacyMandateTypeEnum } from "../enums/entities";
@@ -21,7 +21,7 @@ import { Vote } from "./Vote";
 
 @Entity()
 export class CandidacyMandate extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Column("varchar")

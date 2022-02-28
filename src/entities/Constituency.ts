@@ -4,7 +4,7 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { ElectoralData } from "./ElectoralData";
@@ -12,7 +12,7 @@ import { ParliamentPeriod } from "./ParliamentPeriod";
 
 @Entity()
 export class Constituency extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Column("varchar")

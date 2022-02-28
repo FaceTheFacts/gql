@@ -1,5 +1,8 @@
 import type {
   ApiCommittee,
+  ApiConstituency,
+  ApiElectoralList,
+  ApiFraction,
   ApiParliament,
   ApiParliamentPeriod,
   ApiParty,
@@ -14,4 +17,7 @@ export interface ApiEntities {
   "parliament-periods": ApiParliamentPeriod;
   topics: ApiTopic;
   committees: ApiCommittee;
+  fractions: ApiFraction;
+  constituencies: ApiConstituency;
+  "electoral-lists": ApiElectoralList;
 }

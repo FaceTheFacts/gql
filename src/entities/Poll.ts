@@ -6,7 +6,7 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { Committee } from "./Committee";
@@ -16,7 +16,7 @@ import { Vote } from "./Vote";
 
 @Entity()
 export class Poll extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Column("varchar")

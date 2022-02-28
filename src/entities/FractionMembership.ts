@@ -1,11 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
 import { CandidacyMandate } from "./CandidacyMandate";
 import { Fraction } from "./Fraction";
 
 @Entity()
 export class FractionMembership {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Column("varchar")

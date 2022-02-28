@@ -5,7 +5,7 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import {
@@ -21,7 +21,7 @@ import { Topic } from "./Topic";
 
 @Entity()
 export class Sidejob extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Column("varchar")

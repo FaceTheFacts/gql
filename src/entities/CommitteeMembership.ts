@@ -1,10 +1,4 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
 import { CommitteeMembershipRoleEum } from "../enums/entities";
 import { CandidacyMandate } from "./CandidacyMandate";
@@ -12,7 +6,7 @@ import { Committee } from "./Committee";
 
 @Entity()
 export class CommitteeMembership extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Column("varchar")

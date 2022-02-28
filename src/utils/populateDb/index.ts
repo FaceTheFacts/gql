@@ -1,5 +1,8 @@
 import { prepareConnection } from "../../lib/prepareConnection";
-import { populateCommittees } from "./committees";
+import { populateElectoralLists } from "./electoralLists";
+// import { populateConstituencies } from "./constituencies";
+import { populateFractions } from "./fractions";
+// import { populateCommittees } from "./committees";
 // import { populateParliamentsAndParliamentPeriods } from "./parliamentsAndParliamentPeriods";
 // import { populateTopics } from "./topics";
 // import { populateParties } from "./parties";
@@ -11,7 +14,10 @@ const populateDb = async (): Promise<void> => {
   // await populatePoliticians(connection);
   // await populateParliamentsAndParliamentPeriods(connection);
   // await populateTopics(connection);
-  await populateCommittees(connection);
+  // await populateCommittees(connection);
+  await populateFractions(connection);
+  // await populateConstituencies(connection);
+  await populateElectoralLists(connection);
 };
 
 populateDb();

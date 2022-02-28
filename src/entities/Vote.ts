@@ -1,10 +1,4 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
 import { ReasonNoShowEnum, VoteEnum } from "../enums/entities";
 import { CandidacyMandate } from "./CandidacyMandate";
@@ -13,7 +7,7 @@ import { Poll } from "./Poll";
 
 @Entity()
 export class Vote extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   public id: number;
 
   @Column("varchar")
