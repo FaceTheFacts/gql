@@ -14,7 +14,13 @@ type PaginateParties {
   totalCount: Int!
 }
 
-type PaginatePoliticians {
+type PaginateVotes {
+  hasMore: Boolean!
+  totalCount: Int!
+  votes: [Vote!]!
+}
+
+type PaginatedPoliticians {
   hasMore: Boolean!
   politicians: [Politician!]!
   totalCount: Int!
@@ -39,6 +45,7 @@ type PartyStyle {
 
 type Politician {
   abgeordnetenwatchUrl: String!
+  apiUrl: String!
   birthName: String
   deceased: Boolean!
   deceasedDate: DateTime!
@@ -60,6 +67,7 @@ type Politician {
   sidejobs: [Sidejob!]!
   statisticQuestions: Float!
   statisticQuestionsAnswered: Float!
+  votes: [Vote!]!
   yearOfBirth: Int
 }
 
@@ -72,6 +80,15 @@ enum PoliticianSexEnum {
 type PoliticianWeblink {
   id: ID!
   link: ID!
+}
+
+type Poll {
+  apiUrl: String!
+  entityType: String!
+  fieldIntro: String
+  fieldPollDate: String!
+  id: ID!
+  label: String!
 }
 
 type Position {
@@ -87,8 +104,9 @@ type PositionStatement {
 }
 
 type Query {
+  paginateVotesByPolitician(id: String!, limit: Int!, offset: Int!): PaginateVotes!
   paginatedParties(limit: Int!, offset: Int!): PaginateParties!
-  paginatedPoliticians(limit: Int!, offset: Int!): PaginatePoliticians!
+  paginatedPoliticians(limit: Int!, offset: Int!): PaginatedPoliticians!
   party(id: String!): Party
   politician(id: String!): Politician
 }
@@ -109,4 +127,15 @@ type SidejobOrganization {
   entityType: String!
   id: ID!
   label: String!
+}
+
+type Vote {
+  apiUrl: String!
+  entityType: String!
+  id: ID!
+  label: String!
+  poll: Poll!
+  reasonNoShow: String
+  reasonNoShowOther: String
+  vote: String!
 }
