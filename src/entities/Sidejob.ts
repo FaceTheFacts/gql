@@ -1,8 +1,8 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, Int, ObjectType } from "type-graphql";
 import {
+  BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -15,58 +15,60 @@ import { SidejobOrganization } from "./SidejobOrganization";
 import { Topic } from "./Topic";
 
 @ObjectType()
-@Entity("sidejob", { schema: "public" })
-export class Sidejob {
+@Entity()
+export class Sidejob extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Field()
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Field()
+  @Column("varchar")
+  public label: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Field()
+  @Column("varchar")
+  public apiUrl: string;
 
-  @Column("character varying", { name: "job_title_extra", nullable: true })
-  jobTitleExtra: string | null;
+  @Column("varchar", { nullable: true })
+  public jobTitleExtra?: string;
 
-  @Column("character varying", {
-    name: "additional_information",
-    nullable: true,
-  })
-  additionalInformation: string | null;
+  @Column("varchar", { nullable: true })
+  public additionalInformation?: string;
 
-  @Column("character varying", { name: "category", nullable: true })
-  category: string | null;
+  @Column("varchar")
+  public category: string | null;
 
-  @Column("character varying", { name: "income_level", nullable: true })
-  incomeLevel: string | null;
+  @Field({ nullable: true })
+  @Column("varchar", { nullable: true })
+  public incomeLevel?: string;
 
-  @Column("character varying", { name: "interval", nullable: true })
-  interval: string | null;
+  @Field({ nullable: true })
+  @Column("varchar", { nullable: true })
+  public interval?: string;
 
   @Column("date", { name: "data_change_date", nullable: true })
   dataChangeDate: string | null;
 
-  @Column("integer", { name: "created", nullable: true })
-  created: number | null;
+  @Field(() => Int)
+  @Column("integer")
+  public created: number;
 
-  @Column("integer", { name: "field_country_id", nullable: true })
-  fieldCountryId: number | null;
+  @Column("integer", { nullable: true })
+  public fieldCountryId?: number;
 
   @ManyToOne(() => City, (city) => city.sidejobs)
-  @JoinColumn([{ name: "field_city_id", referencedColumnName: "id" }])
-  fieldCity: City;
+  public fieldCity: City;
 
+  @Field(() => SidejobOrganization, { nullable: true })
   @ManyToOne(
     () => SidejobOrganization,
     (sidejobOrganization) => sidejobOrganization.sidejobs,
   )
-  @JoinColumn([{ name: "sidejob_organization_id", referencedColumnName: "id" }])
-  sidejobOrganization: SidejobOrganization;
+  public sidejobOrganization: SidejobOrganization;
 
   @ManyToMany(
     () => CandidacyMandate,
@@ -81,5 +83,5 @@ export class Sidejob {
     inverseJoinColumns: [{ name: "topic_id", referencedColumnName: "id" }],
     schema: "public",
   })
-  topics: Topic[];
+  public topics: Topic[];
 }

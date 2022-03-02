@@ -1,3 +1,4 @@
+import { Field, ID, ObjectType } from "type-graphql";
 import {
   Column,
   Entity,
@@ -13,29 +14,34 @@ import { City } from "./City";
 import { Sidejob } from "./Sidejob";
 import { Topic } from "./Topic";
 
+@ObjectType()
 @Entity("sidejob_organization", { schema: "public" })
 export class SidejobOrganization {
+  @Field(() => ID)
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Field()
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Field()
+  @Column("varchar")
+  public label: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Field()
+  @Column("varchar")
+  public apiUrl: string;
 
-  @Column("integer", { name: "field_country_id", nullable: true })
-  fieldCountryId: number | null;
+  @Column("integer", { nullable: true })
+  public fieldCountryId?: number;
 
   @OneToMany(() => Sidejob, (sidejob) => sidejob.sidejobOrganization)
-  sidejobs: Sidejob[];
+  public sidejobs: Sidejob[];
 
   @ManyToOne(() => City, (city) => city.sidejobOrganizations)
   @JoinColumn([{ name: "field_city_id", referencedColumnName: "id" }])
-  fieldCity: City;
+  public fieldCity: City;
 
   @ManyToMany(() => Topic, (topic) => topic.sidejobOrganizations)
   @JoinTable({

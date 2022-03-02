@@ -13,7 +13,6 @@ import {
   Root,
 } from "type-graphql";
 
-import { CandidacyMandate } from "../entities/CandidacyMandate";
 import { Politician } from "../entities/Politician";
 import { Sidejob } from "../entities/Sidejob";
 import type { IContext } from "../types/server";
@@ -73,23 +72,21 @@ export class PoliticiansResolvers {
   async sidejobs(
     @Root() politician: Politician,
     @Ctx() ctx: IContext,
+    @Info() info: IGraphQLToolsResolveInfo,
   ): Promise<Sidejob[]> {
-    const { connection } = ctx;
+    const { loader } = ctx;
 
-    const mandates = await connection.getRepository(CandidacyMandate).find({
-      politicianId: politician.id,
-    });
-
-    const mandateIds = mandates.map((mandate) => mandate.id);
-    // const sidejobs = await connection.getRepository(Sidejob).find();
-    const sidejobs = await connection
-      .getRepository(Sidejob)
-      .createQueryBuilder("sidejob")
-      .leftJoinAndSelect("sidejob.candidacyMandates", "candidacyMandate")
-      .where("candidacyMandate.id IN (:...ids)", {
-        ids: mandateIds,
-      })
-      .getMany();
+    const sidejobs = await loader
+      .loadEntity(Sidejob, "sidejob")
+      .info(info)
+      .ejectQueryBuilder((qb) =>
+        qb
+          .leftJoin("sidejob.candidacyMandates", "candidacyMandate")
+          .where("candidacyMandate.politicianId = :id", {
+            id: politician.id,
+          }),
+      )
+      .loadMany();
 
     return sidejobs;
   }
