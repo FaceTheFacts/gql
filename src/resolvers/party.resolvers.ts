@@ -26,7 +26,7 @@ class PaginateParties extends PaginatedResult {
 }
 
 @Resolver(Party)
-export class PartiesResolvers {
+export class PartyResolver {
   @Query(() => Party, { nullable: true })
   public async party(
     @Arg("id") id: string,

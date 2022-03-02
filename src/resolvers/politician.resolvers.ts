@@ -29,7 +29,7 @@ class PaginatePoliticians extends PaginatedResult {
 }
 
 @Resolver(() => Politician)
-export class PoliticiansResolvers {
+export class PoliticianResolver {
   @Query(() => Politician, { nullable: true })
   public async politician(
     @Arg("id") id: string,
