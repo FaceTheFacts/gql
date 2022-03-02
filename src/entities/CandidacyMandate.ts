@@ -8,7 +8,6 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  // RelationId,
 } from "typeorm";
 
 import { CommitteeMembership } from "./CommitteeMembership";
@@ -17,6 +16,7 @@ import { ParliamentPeriod } from "./ParliamentPeriod";
 import { Party } from "./Party";
 import { Politician } from "./Politician";
 import { Sidejob } from "./Sidejob";
+import { Vote } from "./Vote";
 
 @Entity()
 export class CandidacyMandate extends BaseEntity {
@@ -96,4 +96,7 @@ export class CandidacyMandate extends BaseEntity {
     schema: "public",
   })
   public sidejobs: Sidejob[];
+
+  @OneToMany(() => Vote, (vote) => vote.mandate)
+  public votes: Vote[];
 }

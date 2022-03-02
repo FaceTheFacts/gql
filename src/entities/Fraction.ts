@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -10,9 +11,10 @@ import {
 import { FractionMembership } from "./FractionMembership";
 import { ParliamentPeriod } from "./ParliamentPeriod";
 import { PollResultPerFraction } from "./PollResultPerFraction";
+import { Vote } from "./Vote";
 
 @Entity("fraction", { schema: "public" })
-export class Fraction {
+export class Fraction extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
   id: number;
 
@@ -49,4 +51,7 @@ export class Fraction {
     (pollResultPerFraction) => pollResultPerFraction.fraction,
   )
   pollResultPerFractions: PollResultPerFraction[];
+
+  @OneToMany(() => Vote, (vote) => vote.fraction)
+  public votes: Vote[];
 }

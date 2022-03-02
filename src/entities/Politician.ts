@@ -26,14 +26,15 @@ export class Politician extends BaseEntity {
   public id: number;
 
   @Field()
-  @Column("varchar", { name: "entity_type" })
+  @Column("varchar")
   public entityType: string;
 
   @Field()
   @Column()
   public label: string;
 
-  @Column("varchar", { name: "api_url" })
+  @Field()
+  @Column("varchar")
   public apiUrl: string;
 
   @Field()

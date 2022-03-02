@@ -1,34 +1,67 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Field, ID, ObjectType } from "type-graphql";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
-@Entity("vote", { schema: "public" })
-export class Vote {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+import type { TReasonNoShow, TVote } from "../types/api";
+import { CandidacyMandate } from "./CandidacyMandate";
+import { Fraction } from "./Fraction";
+import { Poll } from "./Poll";
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+@ObjectType()
+@Entity()
+export class Vote extends BaseEntity {
+  @Field(() => ID)
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Field()
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Field()
+  @Column("varchar")
+  public label: string;
 
-  @Column("integer", { name: "mandate_id", nullable: true })
-  mandateId: number | null;
+  @Field()
+  @Column("varchar")
+  public apiUrl: string;
 
-  @Column("integer", { name: "fraction_id", nullable: true })
-  fractionId: number | null;
+  @Column("integer")
+  public mandateId: number;
 
-  @Column("integer", { name: "poll_id", nullable: true })
-  pollId: number | null;
+  @Column("integer", { nullable: true })
+  public fractionId?: number;
 
-  @Column("character varying", { name: "vote", nullable: true })
-  vote: string | null;
+  @Column("integer")
+  public pollId: number;
 
-  @Column("character varying", { name: "reason_no_show", nullable: true })
-  reasonNoShow: string | null;
+  @Field()
+  @Column("varchar")
+  public vote: TVote;
 
-  @Column("character varying", { name: "reason_no_show_other", nullable: true })
-  reasonNoShowOther: string | null;
+  @Field({ nullable: true })
+  @Column("varchar", { nullable: true })
+  public reasonNoShow?: TReasonNoShow;
+
+  @Field({ nullable: true })
+  @Column("varchar", { nullable: true })
+  public reasonNoShowOther?: string;
+
+  @ManyToOne(
+    () => CandidacyMandate,
+    (candidacyMandate) => candidacyMandate.votes,
+  )
+  public mandate: CandidacyMandate;
+
+  @ManyToOne(() => Fraction, (fraction) => fraction.votes)
+  public fraction: Fraction;
+
+  @Field(() => Poll)
+  @ManyToOne(() => Poll, (poll) => poll.votes)
+  public poll: Poll;
 }

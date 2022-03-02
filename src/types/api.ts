@@ -144,8 +144,8 @@ export interface ApiPoll extends ApiBase {
   field_topics: ApiTopic[];
 }
 
-type TVote = "yes" | "no" | "abstain" | "no_show";
-type TReasonNoShow = "maternity_protection" | "fell_ill" | "other";
+export type TVote = "yes" | "no" | "abstain" | "no_show";
+export type TReasonNoShow = "maternity_protection" | "fell_ill" | "other";
 
 export interface ApiVotes extends ApiBase {
   mandate: ApiCandidacyMandate;

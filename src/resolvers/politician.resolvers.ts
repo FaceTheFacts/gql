@@ -15,6 +15,7 @@ import {
 
 import { Politician } from "../entities/Politician";
 import { Sidejob } from "../entities/Sidejob";
+import { Vote } from "../entities/Vote";
 import type { IContext } from "../types/server";
 import { PaginatedArgs } from "./base/paginatedArgs";
 import { PaginatedResult } from "./base/paginatedObject";
@@ -23,7 +24,7 @@ import { PaginatedResult } from "./base/paginatedObject";
 class GetPaginatedPoliticians extends PaginatedArgs {}
 
 @ObjectType()
-class PaginatePoliticians extends PaginatedResult {
+class PaginatedPoliticians extends PaginatedResult {
   @Field(() => [Politician])
   politicians: Politician[];
 }
@@ -47,12 +48,12 @@ export class PoliticianResolver {
     return politician;
   }
 
-  @Query(() => PaginatePoliticians)
+  @Query(() => PaginatedPoliticians)
   public async paginatedPoliticians(
     @Args() { offset, limit }: GetPaginatedPoliticians,
     @Ctx() ctx: IContext,
     @Info() info: IGraphQLToolsResolveInfo,
-  ): Promise<PaginatePoliticians> {
+  ): Promise<PaginatedPoliticians> {
     const { loader } = ctx;
 
     const [politicians, totalCount] = await loader
@@ -86,8 +87,37 @@ export class PoliticianResolver {
             id: politician.id,
           }),
       )
+      .order({ "sidejob.id": "DESC" })
       .loadMany();
 
     return sidejobs;
+  }
+
+  @FieldResolver(() => [Vote])
+  async votes(
+    @Root() politician: Politician,
+    @Ctx() ctx: IContext,
+    @Info() info: IGraphQLToolsResolveInfo,
+  ): Promise<Vote[]> {
+    const { loader } = ctx;
+
+    const [votes] = await loader
+      .loadEntity(Vote, "vote")
+      .info(info)
+      .ejectQueryBuilder((qb) =>
+        qb
+          .leftJoin("vote.mandate", "candidacyMandate")
+          .where("vote.vote != :vote", {
+            vote: "no_show",
+          })
+          .andWhere("candidacyMandate.politicianId = :id", {
+            id: politician.id,
+          }),
+      )
+      .paginate({ offset: 0, limit: 10 })
+      .order({ "vote.id": "DESC" })
+      .loadPaginated();
+
+    return votes;
   }
 }

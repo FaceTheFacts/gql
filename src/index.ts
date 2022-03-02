@@ -9,6 +9,7 @@ import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 import { ServerConfig } from "./config/ServerConfig";
 import { PartyResolver } from "./resolvers/party.resolvers";
 import { PoliticianResolver } from "./resolvers/politician.resolvers";
+import { VoteResolver } from "./resolvers/vote.resolvers";
 import type { IApolloServer, IContext } from "./types/server";
 
 const startApolloServer = async (): Promise<IApolloServer> => {
@@ -21,7 +22,7 @@ const startApolloServer = async (): Promise<IApolloServer> => {
 
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PartyResolver, PoliticianResolver],
+      resolvers: [PartyResolver, PoliticianResolver, VoteResolver],
       emitSchemaFile: path.resolve(
         __dirname,
         "__generated__/schema/schema.gql",

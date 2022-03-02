@@ -1,4 +1,6 @@
+import { Field, ID, ObjectType } from "type-graphql";
 import {
+  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -14,27 +16,35 @@ import { FieldRelatedLink } from "./FieldRelatedLink";
 import { ParliamentPeriod } from "./ParliamentPeriod";
 import { PollResultPerFraction } from "./PollResultPerFraction";
 import { Topic } from "./Topic";
+import { Vote } from "./Vote";
 import { VoteResult } from "./VoteResult";
 
-@Entity("poll", { schema: "public" })
-export class Poll {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+@ObjectType()
+@Entity()
+export class Poll extends BaseEntity {
+  @Field(() => ID)
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Field()
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Field()
+  @Column("varchar")
+  public label: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Field()
+  @Column("varchar")
+  public apiUrl: string;
 
-  @Column("text", { name: "field_intro", nullable: true })
-  fieldIntro: string | null;
+  @Field({ nullable: true })
+  @Column("text", { nullable: true })
+  public fieldIntro?: string;
 
-  @Column("date", { name: "field_poll_date", nullable: true })
-  fieldPollDate: string | null;
+  @Field()
+  @Column("date")
+  public fieldPollDate: string;
 
   @OneToMany(
     () => FieldRelatedLink,
@@ -70,4 +80,7 @@ export class Poll {
 
   @OneToMany(() => VoteResult, (voteResult) => voteResult.poll)
   voteResults: VoteResult[];
+
+  @OneToMany(() => Vote, (vote) => vote.fraction)
+  public votes: Vote[];
 }
