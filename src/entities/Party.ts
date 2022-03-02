@@ -9,6 +9,7 @@ import {
   PrimaryColumn,
 } from "typeorm";
 
+import { CandidacyMandate } from "./CandidacyMandate";
 import { PartyStyle } from "./PartyStyle";
 import { Politician } from "./Politician";
 
@@ -45,4 +46,10 @@ export class Party extends BaseEntity {
 
   @OneToMany(() => Politician, (politician) => politician.party)
   public politicians: Politician[];
+
+  @OneToMany(
+    () => CandidacyMandate,
+    (candidacyMandate) => candidacyMandate.party,
+  )
+  public candidacyMandates: CandidacyMandate[];
 }

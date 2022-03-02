@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -7,15 +8,18 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  // RelationId,
 } from "typeorm";
 
 import { CommitteeMembership } from "./CommitteeMembership";
 import { FractionMembership } from "./FractionMembership";
 import { ParliamentPeriod } from "./ParliamentPeriod";
+import { Party } from "./Party";
+import { Politician } from "./Politician";
 import { Sidejob } from "./Sidejob";
 
-@Entity("candidacy_mandate", { schema: "public" })
-export class CandidacyMandate {
+@Entity()
+export class CandidacyMandate extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
   public id: number;
 
@@ -43,12 +47,6 @@ export class CandidacyMandate {
   @Column("varchar", { name: "type" })
   public type: string;
 
-  @Column("integer", { name: "politician_id" })
-  public politicianId: number;
-
-  @Column("integer", { name: "party_id", nullable: true })
-  public partyId?: number;
-
   @Column("date", { name: "start_date", nullable: true })
   public startDate?: Date;
 
@@ -60,6 +58,15 @@ export class CandidacyMandate {
 
   @Column("integer", { name: "electoral_data_id", nullable: true })
   public electoralDataId?: number;
+
+  @Column("integer")
+  public politicianId: number;
+
+  @ManyToOne(() => Politician, (politician) => politician.candidacyMandates)
+  public politician: Politician;
+
+  @ManyToOne(() => Party, (party) => party.candidacyMandates)
+  public party?: Party;
 
   @ManyToOne(
     () => FractionMembership,

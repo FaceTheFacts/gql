@@ -3,14 +3,22 @@ import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import path from "path";
 import { buildSchema } from "type-graphql";
+import { createConnection, getConnectionOptions } from "typeorm";
+import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
 import { ServerConfig } from "./config/ServerConfig";
-import { prepareConnection } from "./lib/prepareConnection";
 import { PartiesResolvers } from "./resolvers/parties.resolvers";
 import { PoliticiansResolvers } from "./resolvers/politicians.resolvers";
 import type { IApolloServer, IContext } from "./types/server";
 
 const startApolloServer = async (): Promise<IApolloServer> => {
+  const connectionOptions = await getConnectionOptions();
+  Object.assign(connectionOptions, {
+    namingStrategy: new SnakeNamingStrategy(),
+  });
+
+  const connection = await createConnection();
+
   const server = new ApolloServer({
     schema: await buildSchema({
       resolvers: [PartiesResolvers, PoliticiansResolvers],
@@ -20,19 +28,17 @@ const startApolloServer = async (): Promise<IApolloServer> => {
       ),
     }),
     context: async (): Promise<IContext> => {
-      const connection = await prepareConnection();
       const loader = new GraphQLDatabaseLoader(connection, {
         maxQueryDepth: ServerConfig.gql.MAX_QUERY_DEPTH,
       });
 
-      return { loader };
+      return { connection, loader };
     },
   });
 
   await server.start();
 
   const app = express();
-
   server.applyMiddleware({ app });
 
   await new Promise((resolve: any) => app.listen({ port: 4000 }, resolve));

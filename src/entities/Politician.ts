@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 
 import { PoliticianSexEnum } from "../enums/entities";
+import { CandidacyMandate } from "./CandidacyMandate";
 import { Party } from "./Party";
 import { PoliticianWeblink } from "./PoliticianWeblink";
 import { Position } from "./Position";
@@ -120,4 +121,10 @@ export class Politician extends BaseEntity {
   @Field(() => [Position])
   @OneToMany(() => Position, (position) => position.politician)
   public positions: Position[];
+
+  @OneToMany(
+    () => CandidacyMandate,
+    (candidacyMandate) => candidacyMandate.politician,
+  )
+  public candidacyMandates: CandidacyMandate[];
 }

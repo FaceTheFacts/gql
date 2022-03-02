@@ -1,7 +1,8 @@
+import { Field, ID, ObjectType } from "type-graphql";
 import {
+  BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -10,18 +11,20 @@ import {
 import { Position } from "./Position";
 import { Topic } from "./Topic";
 
-@Entity("position_statement", { schema: "public" })
-export class PositionStatement {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+@ObjectType()
+@Entity()
+export class PositionStatement extends BaseEntity {
+  @Field(() => ID)
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-  @Column("character varying", { name: "statement", nullable: true })
-  statement: string | null;
+  @Field()
+  @Column("varchar")
+  public statement: string;
 
   @OneToMany(() => Position, (position) => position.positionStatement)
-  positions: Position[];
+  public positions: Position[];
 
   @ManyToOne(() => Topic, (topic) => topic.positionStatements)
-  @JoinColumn([{ name: "topic_id", referencedColumnName: "id" }])
-  topic: Topic;
+  public topic: Topic;
 }

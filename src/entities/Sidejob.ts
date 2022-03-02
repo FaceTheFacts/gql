@@ -1,3 +1,4 @@
+import { Field, ID, ObjectType } from "type-graphql";
 import {
   Column,
   Entity,
@@ -13,8 +14,10 @@ import { City } from "./City";
 import { SidejobOrganization } from "./SidejobOrganization";
 import { Topic } from "./Topic";
 
+@ObjectType()
 @Entity("sidejob", { schema: "public" })
 export class Sidejob {
+  @Field(() => ID)
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
   id: number;
 
@@ -69,7 +72,7 @@ export class Sidejob {
     () => CandidacyMandate,
     (candidacyMandate) => candidacyMandate.sidejobs,
   )
-  candidacyMandates: CandidacyMandate[];
+  public candidacyMandates: CandidacyMandate[];
 
   @ManyToMany(() => Topic, (topic) => topic.sidejobs)
   @JoinTable({

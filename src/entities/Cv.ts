@@ -1,11 +1,17 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 import { CareerPath } from "./CareerPath";
 
 @Entity("cv", { schema: "public" })
-export class Cv {
+export class Cv extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  public id: number;
 
   @Column("integer", { name: "politician_id", nullable: true })
   politicianId: number | null;
