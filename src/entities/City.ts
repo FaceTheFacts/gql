@@ -1,27 +1,20 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 import { Sidejob } from "./Sidejob";
 import { SidejobOrganization } from "./SidejobOrganization";
 
-@Entity("city", { schema: "public" })
+@Entity()
 export class City extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  @PrimaryColumn()
   public id: number;
 
-  @Column("varchar", { name: "entity_type" })
+  @Column("varchar")
   public entityType: string;
 
-  @Column("varchar", { name: "label" })
+  @Column("varchar")
   public label: string;
 
   @Column("varchar", {
-    name: "api_url",
     unique: true,
   })
   public apiUrl: string;
