@@ -1,20 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
-@Entity("country", { schema: "public" })
+@Entity()
 export class Country {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @PrimaryColumn()
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("varchar")
+  public label: string;
 
-  @Column("character varying", {
-    name: "api_url",
-    nullable: true,
-    unique: true,
-  })
-  apiUrl: string | null;
+  @Column("varchar")
+  public apiUrl: string;
 }

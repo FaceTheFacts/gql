@@ -27,5 +27,5 @@ export class PartyStyle extends BaseEntity {
   public borderColor?: string;
 
   @OneToMany(() => Party, (party) => party.style)
-  parties: Party[];
+  public parties: Party[];
 }
