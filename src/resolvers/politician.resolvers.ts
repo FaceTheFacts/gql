@@ -49,6 +49,24 @@ export class PoliticianResolver {
     return politician;
   }
 
+  @Query(() => [Politician])
+  public async searchPoliticianByName(
+    @Arg("name") input: string,
+    @Ctx() ctx: IContext,
+  ): Promise<Politician[]> {
+    const { connection } = ctx;
+
+    const politicians = await connection
+      .getRepository(Politician)
+      .createQueryBuilder()
+      .where("label ILIKE :searchQuery", {
+        searchQuery: `%${input}%`,
+      })
+      .getMany();
+
+    return politicians;
+  }
+
   @Query(() => PaginatedPoliticians)
   public async paginatedPoliticians(
     @Args() { offset, limit }: GetPaginatedPoliticians,

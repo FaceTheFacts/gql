@@ -3,6 +3,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  Index,
   ManyToOne,
   OneToMany,
   PrimaryColumn,
@@ -30,7 +31,8 @@ export class Politician extends BaseEntity {
   public entityType: string;
 
   @Field()
-  @Column()
+  @Index()
+  @Column("varchar")
   public label: string;
 
   @Field()

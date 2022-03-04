@@ -116,6 +116,7 @@ type Query {
   paginatedPoliticians(limit: Int!, offset: Int!): PaginatedPoliticians!
   party(id: String!): Party
   politician(id: String!): Politician
+  searchPoliticianByName(name: String!): [Politician!]!
 }
 
 type Sidejob {
