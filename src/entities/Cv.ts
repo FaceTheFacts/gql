@@ -1,26 +1,38 @@
+import { Field, ID, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { CareerPath } from "./CareerPath";
+import { Politician } from "./Politician";
 
-@Entity("cv", { schema: "public" })
+@ObjectType()
+@Entity()
 export class Cv extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  @Field(() => ID)
+  @PrimaryGeneratedColumn()
   public id: number;
 
-  @Column("integer", { name: "politician_id", nullable: true })
-  politicianId: number | null;
+  @Column("integer")
+  public politicianId: number;
 
-  @Column("character varying", { name: "raw_text", nullable: true })
-  rawText: string | null;
+  @OneToOne(() => Politician)
+  @JoinColumn()
+  public politician: Politician;
 
-  @Column("character varying", { name: "short_description", nullable: true })
-  shortDescription: string | null;
+  @Field()
+  @Column("varchar", { nullable: true })
+  public rawText?: string;
+
+  @Field()
+  @Column("varchar")
+  public shortDescription: string;
 
   @OneToMany(() => CareerPath, (careerPath) => careerPath.cv)
   careerPaths: CareerPath[];

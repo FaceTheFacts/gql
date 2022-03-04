@@ -13,6 +13,7 @@ import {
   Root,
 } from "type-graphql";
 
+import { Cv } from "../entities/Cv";
 import { Politician } from "../entities/Politician";
 import { Sidejob } from "../entities/Sidejob";
 import { Vote } from "../entities/Vote";
@@ -119,5 +120,22 @@ export class PoliticianResolver {
       .loadPaginated();
 
     return votes;
+  }
+
+  @FieldResolver(() => [Cv])
+  async cvs(
+    @Root() politician: Politician,
+    @Ctx() ctx: IContext,
+    @Info() info: IGraphQLToolsResolveInfo,
+  ): Promise<Cv[]> {
+    const { loader } = ctx;
+
+    const cvs = await loader
+      .loadEntity(Cv, "cv")
+      .info(info)
+      .where("cv.politicianId = :id", { id: politician.id })
+      .loadMany();
+
+    return cvs;
   }
 }

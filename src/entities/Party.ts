@@ -3,7 +3,6 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryColumn,
@@ -41,8 +40,7 @@ export class Party extends BaseEntity {
 
   @Field(() => PartyStyle)
   @ManyToOne(() => PartyStyle, (partyStyle) => partyStyle.parties)
-  @JoinColumn([{ name: "party_style_id", referencedColumnName: "id" }])
-  public partyStyle: PartyStyle;
+  public style: PartyStyle;
 
   @OneToMany(() => Politician, (politician) => politician.party)
   public politicians: Politician[];

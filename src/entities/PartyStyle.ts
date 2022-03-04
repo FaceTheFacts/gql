@@ -26,6 +26,6 @@ export class PartyStyle extends BaseEntity {
   @Column("varchar", { nullable: true })
   public borderColor?: string;
 
-  @OneToMany(() => Party, (party) => party.partyStyle)
+  @OneToMany(() => Party, (party) => party.style)
   parties: Party[];
 }

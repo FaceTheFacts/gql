@@ -3,6 +3,12 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Cv {
+  id: ID!
+  rawText: String!
+  shortDescription: String!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -31,8 +37,8 @@ type Party {
   fullName: String!
   id: ID!
   label: String!
-  partyStyle: PartyStyle!
   shortName: String!
+  style: PartyStyle!
 }
 
 type PartyStyle {
@@ -47,6 +53,7 @@ type Politician {
   abgeordnetenwatchUrl: String!
   apiUrl: String!
   birthName: String
+  cvs: [Cv!]!
   deceased: Boolean!
   deceasedDate: DateTime!
   education: String!
