@@ -35,5 +35,5 @@ export class Cv extends BaseEntity {
   public shortDescription: string;
 
   @OneToMany(() => CareerPath, (careerPath) => careerPath.cv)
-  careerPaths: CareerPath[];
+  public careerPaths: CareerPath[];
 }
