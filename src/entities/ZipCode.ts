@@ -1,22 +1,21 @@
 import {
+  BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { Constituency } from "./Constituency";
 
-@Entity("zip_code", { schema: "public" })
-export class ZipCode {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+@Entity()
+export class ZipCode extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-  @Column("character varying", { name: "zip_code", nullable: true })
-  zipCode: string | null;
+  @Column("varchar")
+  public zipCode: string;
 
   @ManyToOne(() => Constituency, (constituency) => constituency.zipCodes)
-  @JoinColumn([{ name: "constituency_id", referencedColumnName: "id" }])
-  constituency: Constituency;
+  public constituency: Constituency;
 }

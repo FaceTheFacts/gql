@@ -2,12 +2,11 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { CommitteeMembership } from "./CommitteeMembership";
@@ -20,43 +19,37 @@ import { Vote } from "./Vote";
 
 @Entity()
 export class CandidacyMandate extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  @PrimaryColumn()
   public id: number;
 
-  @Column("varchar", { name: "entity_type" })
+  @Column("varchar")
   public entityType: string;
 
-  @Column("varchar", { name: "label" })
+  @Column("varchar")
   public label: string;
 
-  @Column("varchar", { name: "api_url" })
+  @Column("varchar")
   public apiUrl: string;
 
-  @Column("varchar", {
-    name: "id_external_administration",
-    nullable: true,
-  })
+  @Column("varchar", { nullable: true })
   public idExternalAdministration?: string;
 
-  @Column("text", {
-    name: "id_external_administration_description",
-    nullable: true,
-  })
+  @Column("text", { nullable: true })
   public idExternalAdministrationDescription?: string;
 
-  @Column("varchar", { name: "type" })
+  @Column("varchar")
   public type: string;
 
-  @Column("date", { name: "start_date", nullable: true })
+  @Column("date", { nullable: true })
   public startDate?: Date;
 
-  @Column("date", { name: "end_date", nullable: true })
+  @Column("date", { nullable: true })
   public endDate?: string;
 
-  @Column("text", { name: "info", nullable: true })
+  @Column("text", { nullable: true })
   public info?: string;
 
-  @Column("integer", { name: "electoral_data_id", nullable: true })
+  @Column("integer", { nullable: true })
   public electoralDataId?: number;
 
   @Column("integer")
@@ -72,14 +65,12 @@ export class CandidacyMandate extends BaseEntity {
     () => FractionMembership,
     (fractionMembership) => fractionMembership.candidacyMandates,
   )
-  @JoinColumn([{ name: "fraction_membership_id", referencedColumnName: "id" }])
   public fractionMembership: FractionMembership;
 
   @ManyToOne(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.candidacyMandates,
   )
-  @JoinColumn([{ name: "parliament_period_id", referencedColumnName: "id" }])
   public parliamentPeriod: ParliamentPeriod;
 
   @OneToMany(
