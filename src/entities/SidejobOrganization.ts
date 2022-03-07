@@ -2,12 +2,11 @@ import { Field, ID, ObjectType } from "type-graphql";
 import {
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { City } from "./City";
@@ -15,10 +14,10 @@ import { Sidejob } from "./Sidejob";
 import { Topic } from "./Topic";
 
 @ObjectType()
-@Entity("sidejob_organization", { schema: "public" })
+@Entity()
 export class SidejobOrganization {
   @Field(() => ID)
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  @PrimaryColumn()
   public id: number;
 
   @Field()
@@ -40,7 +39,6 @@ export class SidejobOrganization {
   public sidejobs: Sidejob[];
 
   @ManyToOne(() => City, (city) => city.sidejobOrganizations)
-  @JoinColumn([{ name: "field_city_id", referencedColumnName: "id" }])
   public fieldCity: City;
 
   @ManyToMany(() => Topic, (topic) => topic.sidejobOrganizations)
@@ -52,5 +50,5 @@ export class SidejobOrganization {
     inverseJoinColumns: [{ name: "topic_id", referencedColumnName: "id" }],
     schema: "public",
   })
-  topics: Topic[];
+  public topics: Topic[];
 }
