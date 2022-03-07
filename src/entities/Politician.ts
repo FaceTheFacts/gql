@@ -91,7 +91,6 @@ export class Politician extends BaseEntity {
   @Column("varchar", { nullable: true })
   public occupation?: string;
 
-  // TODO: convert to number -> Number()
   @Field()
   @Column("integer", { nullable: true })
   public statisticQuestions?: number;

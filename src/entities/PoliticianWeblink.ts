@@ -4,7 +4,7 @@ import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { Politician } from "./Politician";
 
 @ObjectType()
-@Entity("politician_weblink", { schema: "public" })
+@Entity()
 export class PoliticianWeblink extends BaseEntity {
   @Field(() => ID)
   @PrimaryColumn({ type: "integer", name: "id" })
