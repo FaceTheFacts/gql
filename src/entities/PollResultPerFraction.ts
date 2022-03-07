@@ -1,39 +1,31 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
 import { Fraction } from "./Fraction";
 import { Poll } from "./Poll";
 
-@Entity("poll_result_per_fraction", { schema: "public" })
-export class PollResultPerFraction {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+@Entity()
+export class PollResultPerFraction extends BaseEntity {
+  @PrimaryColumn()
   id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("integer", { name: "total_yes", nullable: true })
-  totalYes: number | null;
+  @Column("integer")
+  public totalYes: number;
 
-  @Column("integer", { name: "total_no", nullable: true })
-  totalNo: number | null;
+  @Column("integer")
+  public totalNo: number;
 
-  @Column("integer", { name: "total_abstain", nullable: true })
-  totalAbstain: number | null;
+  @Column("integer")
+  public totalAbstain: number;
 
-  @Column("integer", { name: "total_no_show", nullable: true })
-  totalNoShow: number | null;
+  @Column("integer")
+  public totalNoShow: number;
 
   @ManyToOne(() => Fraction, (fraction) => fraction.pollResultPerFractions)
-  @JoinColumn([{ name: "fraction_id", referencedColumnName: "id" }])
-  fraction: Fraction;
+  public fraction: Fraction;
 
   @ManyToOne(() => Poll, (poll) => poll.pollResultPerFractions)
-  @JoinColumn([{ name: "poll_id", referencedColumnName: "id" }])
-  poll: Poll;
+  public poll: Poll;
 }
