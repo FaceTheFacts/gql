@@ -60,8 +60,7 @@ export class Poll extends BaseEntity {
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.polls,
   )
-  @JoinColumn([{ name: "field_legislature_id", referencedColumnName: "id" }])
-  fieldLegislature: ParliamentPeriod;
+  public fieldLegislature: ParliamentPeriod;
 
   @ManyToMany(() => Topic, (topic) => topic.polls)
   @JoinTable({
@@ -70,16 +69,16 @@ export class Poll extends BaseEntity {
     inverseJoinColumns: [{ name: "topic_id", referencedColumnName: "id" }],
     schema: "public",
   })
-  topics: Topic[];
+  public topics: Topic[];
 
   @OneToMany(
     () => PollResultPerFraction,
     (pollResultPerFraction) => pollResultPerFraction.poll,
   )
-  pollResultPerFractions: PollResultPerFraction[];
+  public pollResultPerFractions: PollResultPerFraction[];
 
   @OneToMany(() => VoteResult, (voteResult) => voteResult.poll)
-  voteResults: VoteResult[];
+  public voteResults: VoteResult[];
 
   @OneToMany(() => Vote, (vote) => vote.fraction)
   public votes: Vote[];
