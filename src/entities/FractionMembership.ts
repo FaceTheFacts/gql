@@ -22,10 +22,10 @@ export class FractionMembership extends BaseEntity {
   public label: string;
 
   @Column("varchar", { nullable: true })
-  public validFrom: string;
+  public validFrom?: string;
 
   @Column("varchar", { nullable: true })
-  public validUntil: string;
+  public validUntil?: string;
 
   @OneToMany(
     () => CandidacyMandate,
