@@ -1,31 +1,32 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { ElectoralData } from "./ElectoralData";
 import { ParliamentPeriod } from "./ParliamentPeriod";
 
-@Entity("electoral_list", { schema: "public" })
-export class ElectoralList {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+@Entity()
+export class ElectoralList extends BaseEntity {
+  @PrimaryColumn()
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("varchar")
+  public label: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Column("varchar")
+  public apiUrl: string;
 
-  @Column("character varying", { name: "name", nullable: true })
-  name: string | null;
+  @Column("varchar")
+  public name: string;
 
   @OneToMany(
     () => ElectoralData,
@@ -38,5 +39,5 @@ export class ElectoralList {
     (parliamentPeriod) => parliamentPeriod.electoralLists,
   )
   @JoinColumn([{ name: "parliament_period_id", referencedColumnName: "id" }])
-  parliamentPeriod: ParliamentPeriod;
+  public parliamentPeriod: ParliamentPeriod;
 }
