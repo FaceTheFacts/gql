@@ -1,31 +1,30 @@
 import {
+  BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { Poll } from "./Poll";
 
-@Entity("vote_result", { schema: "public" })
-export class VoteResult {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+@Entity()
+export class VoteResult extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-  @Column("integer", { name: "yes" })
-  yes: number;
+  @Column("integer")
+  public yes: number;
 
-  @Column("integer", { name: "no" })
-  no: number;
+  @Column("integer")
+  public no: number;
 
-  @Column("integer", { name: "abstain" })
-  abstain: number;
+  @Column("integer")
+  public abstain: number;
 
-  @Column("integer", { name: "no_show" })
-  noShow: number;
+  @Column("integer")
+  public noShow: number;
 
   @ManyToOne(() => Poll, (poll) => poll.voteResults)
-  @JoinColumn([{ name: "poll_id", referencedColumnName: "id" }])
-  poll: Poll;
+  public poll: Poll;
 }
