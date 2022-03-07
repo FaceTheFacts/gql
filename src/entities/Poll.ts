@@ -50,7 +50,7 @@ export class Poll extends BaseEntity {
     () => FieldRelatedLink,
     (fieldRelatedLink) => fieldRelatedLink.poll,
   )
-  fieldRelatedLinks: FieldRelatedLink[];
+  public fieldRelatedLinks: FieldRelatedLink[];
 
   @ManyToOne(() => Committee, (committee) => committee.polls)
   @JoinColumn([{ name: "field_committees_id", referencedColumnName: "id" }])

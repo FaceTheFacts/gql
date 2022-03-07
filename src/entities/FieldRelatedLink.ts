@@ -1,25 +1,18 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
 import { Poll } from "./Poll";
 
-@Entity("field_related_link", { schema: "public" })
-export class FieldRelatedLink {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+@Entity()
+export class FieldRelatedLink extends BaseEntity {
+  @PrimaryColumn()
+  public id: number;
 
-  @Column("character varying", { name: "uri", nullable: true })
-  uri: string | null;
+  @Column("varchar")
+  public uri: string;
 
-  @Column("character varying", { name: "title", nullable: true })
-  title: string | null;
+  @Column("varchar")
+  public title: string;
 
   @ManyToOne(() => Poll, (poll) => poll.fieldRelatedLinks)
-  @JoinColumn([{ name: "poll_id", referencedColumnName: "id" }])
-  poll: Poll;
+  public poll: Poll;
 }
