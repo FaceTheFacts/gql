@@ -1,46 +1,43 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
 import { ParliamentPeriod } from "./ParliamentPeriod";
+import { Party } from "./Party";
 
-@Entity("election_program", { schema: "public" })
+@Entity()
 export class ElectionProgram {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @PrimaryColumn()
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("varchar")
+  public label: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Column("varchar")
+  public apiUrl: string;
 
-  @Column("integer", { name: "party_id", nullable: true })
-  partyId: number | null;
+  @Column("integer", { nullable: true })
+  public partyId: number | null;
 
-  @Column("character varying", { name: "link_uri", nullable: true })
-  linkUri: string | null;
+  @ManyToOne(() => Party, (party) => party.electionPrograms)
+  public party: Party;
 
-  @Column("character varying", { name: "link_title", nullable: true })
-  linkTitle: string | null;
+  @Column("varchar", { nullable: true })
+  public linkUri?: string;
 
-  @Column("character varying", { name: "link_option", nullable: true })
-  linkOption: string | null;
+  @Column("varchar", { nullable: true })
+  public linkTitle?: string;
 
-  @Column("character varying", { name: "file", nullable: true })
+  @Column("varchar", { nullable: true })
+  public linkOption?: string;
+
+  @Column("varchar", { nullable: true })
   file: string | null;
 
   @ManyToOne(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.electionPrograms,
   )
-  @JoinColumn([{ name: "parliament_period_id", referencedColumnName: "id" }])
-  parliamentPeriod: ParliamentPeriod;
+  public parliamentPeriod: ParliamentPeriod;
 }
