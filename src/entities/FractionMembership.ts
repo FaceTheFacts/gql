@@ -1,39 +1,38 @@
 import {
+  BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { CandidacyMandate } from "./CandidacyMandate";
 import { Fraction } from "./Fraction";
 
-@Entity("fraction_membership", { schema: "public" })
-export class FractionMembership {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+@Entity()
+export class FractionMembership extends BaseEntity {
+  @PrimaryColumn()
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("varchar")
+  public label: string;
 
-  @Column("character varying", { name: "valid_from", nullable: true })
-  validFrom: string | null;
+  @Column("varchar", { nullable: true })
+  public validFrom: string;
 
-  @Column("character varying", { name: "valid_until", nullable: true })
-  validUntil: string | null;
+  @Column("varchar", { nullable: true })
+  public validUntil: string;
 
   @OneToMany(
     () => CandidacyMandate,
     (candidacyMandate) => candidacyMandate.fractionMembership,
   )
-  candidacyMandates: CandidacyMandate[];
+  public candidacyMandates: CandidacyMandate[];
 
   @ManyToOne(() => Fraction, (fraction) => fraction.fractionMemberships)
-  @JoinColumn([{ name: "fraction_id", referencedColumnName: "id" }])
-  fraction: Fraction;
+  public fraction: Fraction;
 }
