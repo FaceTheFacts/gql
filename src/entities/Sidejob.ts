@@ -40,7 +40,7 @@ export class Sidejob extends BaseEntity {
   public additionalInformation?: string;
 
   @Column("varchar")
-  public category: string | null;
+  public category: string;
 
   @Field({ nullable: true })
   @Column("varchar", { nullable: true })
@@ -50,8 +50,8 @@ export class Sidejob extends BaseEntity {
   @Column("varchar", { nullable: true })
   public interval?: string;
 
-  @Column("date", { name: "data_change_date", nullable: true })
-  dataChangeDate: string | null;
+  @Column("date", { nullable: true })
+  public dataChangeDate?: string;
 
   @Field(() => Int)
   @Column("integer")

@@ -12,7 +12,7 @@ import { Politician } from "./Politician";
 import { PositionStatement } from "./PositionStatement";
 
 @ObjectType()
-@Entity("position", { schema: "public" })
+@Entity()
 export class Position extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
