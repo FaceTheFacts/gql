@@ -1,11 +1,11 @@
 import {
+  BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { Committee } from "./Committee";
@@ -14,54 +14,50 @@ import { PositionStatement } from "./PositionStatement";
 import { Sidejob } from "./Sidejob";
 import { SidejobOrganization } from "./SidejobOrganization";
 
-@Entity("topic", { schema: "public" })
-export class Topic {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+@Entity()
+export class Topic extends BaseEntity {
+  @PrimaryColumn()
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("varchar")
+  public label: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Column("varchar")
+  public apiUrl: string;
 
-  @Column("character varying", {
-    name: "abgeordnetenwatch_url",
-    nullable: true,
-  })
-  abgeordnetenwatchUrl: string | null;
+  @Column("varchar")
+  public abgeordnetenwatchUrl: string | null;
 
-  @Column("character varying", { name: "description", nullable: true })
-  description: string | null;
+  @Column("varchar", { nullable: true })
+  public description?: string;
 
   @ManyToMany(() => Committee, (committee) => committee.topics)
-  committees: Committee[];
+  public committees: Committee[];
 
   @ManyToMany(() => Poll, (poll) => poll.topics)
-  polls: Poll[];
+  public polls: Poll[];
 
   @OneToMany(
     () => PositionStatement,
     (positionStatement) => positionStatement.topic,
   )
-  positionStatements: PositionStatement[];
+  public positionStatements: PositionStatement[];
 
   @ManyToMany(() => Sidejob, (sidejob) => sidejob.topics)
-  sidejobs: Sidejob[];
+  public sidejobs: Sidejob[];
 
   @ManyToMany(
     () => SidejobOrganization,
     (sidejobOrganization) => sidejobOrganization.topics,
   )
-  sidejobOrganizations: SidejobOrganization[];
+  public sidejobOrganizations: SidejobOrganization[];
 
   @ManyToOne(() => Topic, (topic) => topic.topics)
-  @JoinColumn([{ name: "parent_id", referencedColumnName: "id" }])
-  parent: Topic;
+  public parent: Topic;
 
   @OneToMany(() => Topic, (topic) => topic.parent)
-  topics: Topic[];
+  public topics: Topic[];
 }
