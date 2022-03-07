@@ -1,10 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
 import { ParliamentPeriod } from "./ParliamentPeriod";
 import { Party } from "./Party";
 
 @Entity()
-export class ElectionProgram {
+export class ElectionProgram extends BaseEntity {
   @PrimaryColumn()
   public id: number;
 
@@ -18,7 +18,7 @@ export class ElectionProgram {
   public apiUrl: string;
 
   @Column("integer", { nullable: true })
-  public partyId: number | null;
+  public partyId?: number;
 
   @ManyToOne(() => Party, (party) => party.electionPrograms)
   public party: Party;
@@ -33,7 +33,7 @@ export class ElectionProgram {
   public linkOption?: string;
 
   @Column("varchar", { nullable: true })
-  file: string | null;
+  public file?: string;
 
   @ManyToOne(
     () => ParliamentPeriod,

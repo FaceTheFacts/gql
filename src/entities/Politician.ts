@@ -40,9 +40,7 @@ export class Politician extends BaseEntity {
   public apiUrl: string;
 
   @Field()
-  @Column("varchar", {
-    name: "abgeordnetenwatch_url",
-  })
+  @Column("varchar")
   public abgeordnetenwatchUrl: string;
 
   @Field()

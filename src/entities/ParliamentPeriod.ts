@@ -1,10 +1,10 @@
 import {
+  BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { CandidacyMandate } from "./CandidacyMandate";
@@ -17,43 +17,40 @@ import { Parliament } from "./Parliament";
 import { Poll } from "./Poll";
 import { Position } from "./Position";
 
-@Entity("parliament_period", { schema: "public" })
-export class ParliamentPeriod {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+@Entity()
+export class ParliamentPeriod extends BaseEntity {
+  @PrimaryColumn()
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("varchar")
+  public label: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Column("varchar")
+  public apiUrl: string;
 
-  @Column("character varying", {
-    name: "abgeordnetenwatch_url",
-    nullable: true,
-  })
-  abgeordnetenwatchUrl: string | null;
+  @Column("varchar")
+  public abgeordnetenwatchUrl: string;
 
-  @Column("character varying", { name: "type", nullable: true })
-  type: string | null;
+  @Column("varchar")
+  public type: string;
 
-  @Column("date", { name: "election_date", nullable: true })
-  electionDate: string | null;
+  @Column("date", { nullable: true })
+  public electionDate?: string;
 
-  @Column("date", { name: "start_date_period", nullable: true })
-  startDatePeriod: string | null;
+  @Column("date")
+  public startDatePeriod: string;
 
-  @Column("date", { name: "end_date_period", nullable: true })
-  endDatePeriod: string | null;
+  @Column("date")
+  public endDatePeriod: string;
 
   @OneToMany(
     () => CandidacyMandate,
     (candidacyMandate) => candidacyMandate.parliamentPeriod,
   )
-  candidacyMandates: CandidacyMandate[];
+  public candidacyMandates: CandidacyMandate[];
 
   @OneToMany(() => Committee, (committee) => committee.fieldLegislature)
   public committees: Committee[];
@@ -62,7 +59,7 @@ export class ParliamentPeriod {
     () => ElectionProgram,
     (electionProgram) => electionProgram.parliamentPeriod,
   )
-  electionPrograms: ElectionProgram[];
+  public electionPrograms: ElectionProgram[];
 
   @OneToMany(
     () => ElectoralList,
@@ -74,34 +71,32 @@ export class ParliamentPeriod {
   public fractions: Fraction[];
 
   @OneToMany(() => Parliament, (parliament) => parliament.currentProject)
-  parliaments: Parliament[];
+  public parliaments: Parliament[];
 
   @ManyToOne(() => Parliament, (parliament) => parliament.parliamentPeriods)
-  @JoinColumn([{ name: "parliament_id", referencedColumnName: "id" }])
-  parliament: Parliament;
+  public parliament: Parliament;
 
   @ManyToOne(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.parliamentPeriods,
   )
-  @JoinColumn([{ name: "previous_period_id", referencedColumnName: "id" }])
-  previousPeriod: ParliamentPeriod;
+  public previousPeriod: ParliamentPeriod;
 
   @OneToMany(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.previousPeriod,
   )
-  parliamentPeriods: ParliamentPeriod[];
+  public parliamentPeriods: ParliamentPeriod[];
 
   @OneToMany(() => Poll, (poll) => poll.fieldLegislature)
-  polls: Poll[];
+  public polls: Poll[];
 
   @OneToMany(() => Position, (position) => position.parliamentPeriod)
-  positions: Position[];
+  public positions: Position[];
 
   @OneToMany(
     () => Constituency,
     (constituency) => constituency.parliamentPeriod,
   )
-  constituencies: Constituency[];
+  public constituencies: Constituency[];
 }
