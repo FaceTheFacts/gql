@@ -1,9 +1,16 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryColumn,
+} from "typeorm";
 
 import { ParliamentPeriod } from "./ParliamentPeriod";
 
 @Entity()
-export class Parliament {
+export class Parliament extends BaseEntity {
   @PrimaryColumn()
   public id: number;
 
