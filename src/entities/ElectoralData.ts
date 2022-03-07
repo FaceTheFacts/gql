@@ -1,36 +1,30 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
 import { Constituency } from "./Constituency";
 import { ElectoralList } from "./ElectoralList";
 
-@Entity("electoral_data", { schema: "public" })
-export class ElectoralData {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+@Entity()
+export class ElectoralData extends BaseEntity {
+  @PrimaryColumn()
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("varchar")
+  public label: string;
 
-  @Column("integer", { name: "list_position", nullable: true })
-  listPosition: number | null;
+  @Column("integer", { nullable: true })
+  public listPosition?: number;
 
   @Column("float", { nullable: true })
-  constituencyResult: number | null;
+  public constituencyResult?: number;
 
-  @Column("integer", { name: "constituency_result_count", nullable: true })
-  constituencyResultCount: number | null;
+  @Column("integer", { nullable: true })
+  public constituencyResultCount?: number;
 
-  @Column("character varying", { name: "mandate_won", nullable: true })
-  mandateWon: string | null;
+  @Column("character varying", { nullable: true })
+  public mandateWon?: string;
 
   @ManyToOne(() => Constituency, (constituency) => constituency.electoralData)
   public constituency: Constituency;
@@ -39,6 +33,5 @@ export class ElectoralData {
     () => ElectoralList,
     (electoralList) => electoralList.electoralData,
   )
-  @JoinColumn([{ name: "electoral_list_id", referencedColumnName: "id" }])
-  electoralList: ElectoralList;
+  public electoralList: ElectoralList;
 }

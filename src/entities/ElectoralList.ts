@@ -31,7 +31,7 @@ export class ElectoralList {
     () => ElectoralData,
     (electoralData) => electoralData.electoralList,
   )
-  electoralData: ElectoralData[];
+  public electoralData: ElectoralData[];
 
   @ManyToOne(
     () => ParliamentPeriod,
