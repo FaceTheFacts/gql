@@ -3,7 +3,6 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -53,8 +52,7 @@ export class Poll extends BaseEntity {
   public fieldRelatedLinks: FieldRelatedLink[];
 
   @ManyToOne(() => Committee, (committee) => committee.polls)
-  @JoinColumn([{ name: "field_committees_id", referencedColumnName: "id" }])
-  fieldCommittees: Committee;
+  public fieldCommittees: Committee;
 
   @ManyToOne(
     () => ParliamentPeriod,
