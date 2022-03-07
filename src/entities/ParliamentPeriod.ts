@@ -9,6 +9,7 @@ import {
 
 import { CandidacyMandate } from "./CandidacyMandate";
 import { Committee } from "./Committee";
+import { Constituency } from "./Constituency";
 import { ElectionProgram } from "./ElectionProgram";
 import { ElectoralList } from "./ElectoralList";
 import { Fraction } from "./Fraction";
@@ -97,4 +98,10 @@ export class ParliamentPeriod {
 
   @OneToMany(() => Position, (position) => position.parliamentPeriod)
   positions: Position[];
+
+  @OneToMany(
+    () => Constituency,
+    (constituency) => constituency.parliamentPeriod,
+  )
+  constituencies: Constituency[];
 }

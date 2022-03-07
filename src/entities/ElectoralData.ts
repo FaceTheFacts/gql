@@ -33,8 +33,7 @@ export class ElectoralData {
   mandateWon: string | null;
 
   @ManyToOne(() => Constituency, (constituency) => constituency.electoralData)
-  @JoinColumn([{ name: "constituency_id", referencedColumnName: "id" }])
-  constituency: Constituency;
+  public constituency: Constituency;
 
   @ManyToOne(
     () => ElectoralList,

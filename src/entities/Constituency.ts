@@ -2,39 +2,47 @@ import {
   BaseEntity,
   Column,
   Entity,
+  ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { ElectoralData } from "./ElectoralData";
+import { ParliamentPeriod } from "./ParliamentPeriod";
 import { ZipCode } from "./ZipCode";
 
-@Entity("constituency", { schema: "public" })
+@Entity()
 export class Constituency extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  @PrimaryColumn()
   public id: number;
 
-  @Column("varchar", { name: "entity_type" })
-  public entityType: string | null;
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("text", { name: "label", nullable: true })
+  @Column("text", { nullable: true })
   public label?: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Column("varchar")
+  public apiUrl: string;
 
-  @Column("character varying", { name: "name", nullable: true })
-  name: string | null;
+  @Column("varchar")
+  public name: string;
 
-  @Column("integer", { name: "number", nullable: true })
-  number: number | null;
+  @Column("integer", { nullable: true })
+  public number?: number;
 
-  @Column("integer", { name: "parliament_period_id", nullable: true })
-  parliamentPeriodId: number | null;
+  @Column("integer")
+  public parliamentPeriodId: number;
+
+  @ManyToOne(
+    () => ParliamentPeriod,
+    (parliamentPeriod) => parliamentPeriod.constituencies,
+  )
+  public parliamentPeriod: ParliamentPeriod;
 
   @OneToMany(() => ElectoralData, (electoralData) => electoralData.constituency)
-  electoralData: ElectoralData[];
+  public electoralData: ElectoralData[];
 
   @OneToMany(() => ZipCode, (zipCode) => zipCode.constituency)
-  zipCodes: ZipCode[];
+  public zipCodes: ZipCode[];
 }
