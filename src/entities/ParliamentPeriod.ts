@@ -71,7 +71,7 @@ export class ParliamentPeriod {
   public electoralLists: ElectoralList[];
 
   @OneToMany(() => Fraction, (fraction) => fraction.legislature)
-  fractions: Fraction[];
+  public fractions: Fraction[];
 
   @OneToMany(() => Parliament, (parliament) => parliament.currentProject)
   parliaments: Parliament[];

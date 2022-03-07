@@ -2,10 +2,9 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { FractionMembership } from "./FractionMembership";
@@ -13,44 +12,43 @@ import { ParliamentPeriod } from "./ParliamentPeriod";
 import { PollResultPerFraction } from "./PollResultPerFraction";
 import { Vote } from "./Vote";
 
-@Entity("fraction", { schema: "public" })
+@Entity()
 export class Fraction extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @PrimaryColumn()
+  public id: number;
 
-  @Column("character varying", { name: "entity_type", nullable: true })
-  entityType: string | null;
+  @Column("varchar")
+  public entityType: string;
 
-  @Column("character varying", { name: "label", nullable: true })
-  label: string | null;
+  @Column("varchar")
+  public label: string;
 
-  @Column("character varying", { name: "api_url", nullable: true })
-  apiUrl: string | null;
+  @Column("varchar")
+  public apiUrl: string;
 
-  @Column("character varying", { name: "full_name", nullable: true })
-  fullName: string | null;
+  @Column("varchar")
+  public fullName: string;
 
-  @Column("character varying", { name: "short_name", nullable: true })
-  shortName: string | null;
+  @Column("varchar")
+  public shortName: string;
 
   @ManyToOne(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.fractions,
   )
-  @JoinColumn([{ name: "legislature_id", referencedColumnName: "id" }])
-  legislature: ParliamentPeriod;
+  public legislature: ParliamentPeriod;
 
   @OneToMany(
     () => FractionMembership,
     (fractionMembership) => fractionMembership.fraction,
   )
-  fractionMemberships: FractionMembership[];
+  public fractionMemberships: FractionMembership[];
 
   @OneToMany(
     () => PollResultPerFraction,
     (pollResultPerFraction) => pollResultPerFraction.fraction,
   )
-  pollResultPerFractions: PollResultPerFraction[];
+  public pollResultPerFractions: PollResultPerFraction[];
 
   @OneToMany(() => Vote, (vote) => vote.fraction)
   public votes: Vote[];
