@@ -35,6 +35,5 @@ export class CommitteeMembership extends BaseEntity {
   public candidacyMandate: CandidacyMandate;
 
   @ManyToOne(() => Committee, (committee) => committee.committeeMemberships)
-  @JoinColumn([{ name: "committee_id", referencedColumnName: "id" }])
   public committee: Committee;
 }

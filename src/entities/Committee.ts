@@ -2,12 +2,11 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 
 import { CommitteeMembership } from "./CommitteeMembership";
@@ -15,26 +14,25 @@ import { ParliamentPeriod } from "./ParliamentPeriod";
 import { Poll } from "./Poll";
 import { Topic } from "./Topic";
 
-@Entity("committee", { schema: "public" })
+@Entity()
 export class Committee extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  @PrimaryColumn()
   public id: number;
 
-  @Column("varchar", { name: "entity_type" })
+  @Column("varchar")
   public entityType: string;
 
-  @Column("varchar", { name: "label" })
+  @Column("varchar")
   public label: string;
 
-  @Column("varchar", { name: "api_url" })
+  @Column("varchar")
   public apiUrl: string;
 
   @ManyToOne(
     () => ParliamentPeriod,
     (parliamentPeriod) => parliamentPeriod.committees,
   )
-  @JoinColumn([{ name: "field_legislature_id", referencedColumnName: "id" }])
-  fieldLegislature: ParliamentPeriod;
+  public fieldLegislature: ParliamentPeriod;
 
   @ManyToMany(() => Topic, (topic) => topic.committees)
   @JoinTable({
@@ -43,14 +41,14 @@ export class Committee extends BaseEntity {
     inverseJoinColumns: [{ name: "topic_id", referencedColumnName: "id" }],
     schema: "public",
   })
-  topics: Topic[];
+  public topics: Topic[];
 
   @OneToMany(
     () => CommitteeMembership,
     (committeeMembership) => committeeMembership.committee,
   )
-  committeeMemberships: CommitteeMembership[];
+  public committeeMemberships: CommitteeMembership[];
 
   @OneToMany(() => Poll, (poll) => poll.fieldCommittees)
-  polls: Poll[];
+  public polls: Poll[];
 }

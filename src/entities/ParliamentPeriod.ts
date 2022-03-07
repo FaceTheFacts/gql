@@ -55,7 +55,7 @@ export class ParliamentPeriod {
   candidacyMandates: CandidacyMandate[];
 
   @OneToMany(() => Committee, (committee) => committee.fieldLegislature)
-  committees: Committee[];
+  public committees: Committee[];
 
   @OneToMany(
     () => ElectionProgram,
